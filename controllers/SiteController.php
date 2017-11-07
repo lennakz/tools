@@ -121,6 +121,16 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about');
+		$this->view->title = 'About';
+		$this->view->params['breadcrumbs'][] = $this->view->title;
+		
+        return $this->render('about.tpl');
     }
+    
+    public function actionTest() 
+    {
+		return $this->render('test.tpl');
+    }
+	
+	
 }

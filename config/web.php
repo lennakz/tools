@@ -1,16 +1,21 @@
 <?php
 
+use \yii\web\Request;
+$baseUrl = str_replace('/web', '', (new Request)->getBaseUrl());
+
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
+	'defaultRoute' => 'site',
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'Re0wDiMLpJ-gXgntiDcdFG_uYguEyQA5',
+			'baseUrl' => $baseUrl,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -39,14 +44,26 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
+			'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+				'<action:\w+>' => 'site/<action>',
+				'<controller:\w+>/<id:\d+>' => '<controller>/view',
+				'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ],
         ],
-        */
+		'view' => [
+			'defaultExtension' => 'php',
+            'renderers' => [
+                'tpl' => [
+                    'class' => 'yii\smarty\ViewRenderer',
+                    //'cachePath' => '@runtime/Smarty/cache',
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];

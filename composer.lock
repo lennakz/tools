@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0ae91dd49c8a7d0b85d596e662463df",
+    "content-hash": "35d67087def464e33ba4a769a7d72aa4",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -57,39 +57,102 @@
             "time": "2016-07-25T15:51:55+00:00"
         },
         {
-            "name": "bower-asset/jquery",
-            "version": "2.2.4",
+            "name": "bower-asset/gentelella",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
-                "reference": "c0185ab7c75aab88762c5aae780b9d83b80eda72"
+                "url": "https://github.com/puikinsh/gentelella.git",
+                "reference": "3448fdfdf16a41707d6e2a8154d592a88d85c41c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/c0185ab7c75aab88762c5aae780b9d83b80eda72",
-                "reference": "c0185ab7c75aab88762c5aae780b9d83b80eda72",
+                "url": "https://api.github.com/repos/puikinsh/gentelella/zipball/3448fdfdf16a41707d6e2a8154d592a88d85c41c",
+                "reference": "3448fdfdf16a41707d6e2a8154d592a88d85c41c",
                 "shasum": ""
+            },
+            "require-dev": {
+                "bower-asset/animate.css": ">=3.5.1,<4.0.0",
+                "bower-asset/autosize": ">=3.0.15,<4.0.0",
+                "bower-asset/bootstrap": ">=3.3.7,<4.0.0",
+                "bower-asset/bootstrap-colorpicker": ">=2.3.3,<3.0.0",
+                "bower-asset/bootstrap-daterangepicker": "dev-master",
+                "bower-asset/bootstrap-progressbar": ">=0.9.0,<0.10.0",
+                "bower-asset/bootstrap-wysiwyg-steveathon": ">=1.0.5,<2.0.0",
+                "bower-asset/chart.js": ">=2.0.2,<3.0.0",
+                "bower-asset/cropper": ">=2.3.0,<3.0.0",
+                "bower-asset/datatables.net": ">=1.10.11,<2.0.0",
+                "bower-asset/datatables.net-bs": ">=1.10.11,<2.0.0",
+                "bower-asset/datatables.net-buttons": ">=1.1.2,<2.0.0",
+                "bower-asset/datatables.net-buttons-bs": ">=1.1.2,<2.0.0",
+                "bower-asset/datatables.net-fixedheader": ">=3.1.1,<4.0.0",
+                "bower-asset/datatables.net-fixedheader-bs": ">=3.1.1,<4.0.0",
+                "bower-asset/datatables.net-keytable": ">=2.1.1,<3.0.0",
+                "bower-asset/datatables.net-responsive": ">=2.0.2,<3.0.0",
+                "bower-asset/datatables.net-responsive-bs": ">=2.0.2,<3.0.0",
+                "bower-asset/datatables.net-scroller": ">=1.4.1,<2.0.0",
+                "bower-asset/datatables.net-scroller-bs": ">=1.4.1,<2.0.0",
+                "bower-asset/datejs": ">=1.0.0-RC3,<2.0.0",
+                "bower-asset/devbridge-autocomplete": ">=1.2.24,<2.0.0",
+                "bower-asset/dropzone": ">=4.3.0,<5.0.0",
+                "bower-asset/echarts": ">=3.1.7,<4.0.0",
+                "bower-asset/fastclick": ">=1.0.6,<2.0.0",
+                "bower-asset/flot": ">=0.8.3,<0.9.0",
+                "bower-asset/flot-spline": ">=0.8.2,<0.9.0",
+                "bower-asset/flot.curvedlines": ">=1.1.1,<2.0.0",
+                "bower-asset/flot.orderbars": "*",
+                "bower-asset/fontawesome": ">=4.6.1,<5.0.0",
+                "bower-asset/fullcalendar": ">=2.6.1,<3.0.0",
+                "bower-asset/gauge.js": ">=1.2.1,<2.0.0",
+                "bower-asset/icheck": ">=1.0.2,<2.0.0",
+                "bower-asset/ionrangeslider": ">=2.1.3,<3.0.0",
+                "bower-asset/jquery": ">=2.2.3,<3.0.0",
+                "bower-asset/jquery-knob": ">=1.2.13,<2.0.0",
+                "bower-asset/jquery-smart-wizard": ">=3.3.1,<4.0.0",
+                "bower-asset/jquery-sparkline": ">=2.1.3,<3.0.0",
+                "bower-asset/jquery.easy-pie-chart": ">=2.1.6,<3.0.0",
+                "bower-asset/jquery.inputmask": ">=3.3.1,<4.0.0",
+                "bower-asset/jquery.tagsinput": ">=1.3.6,<2.0.0",
+                "bower-asset/jqvmap": "dev-master",
+                "bower-asset/jszip": "2.6.0",
+                "bower-asset/malihu-custom-scrollbar-plugin": ">=3.1.3,<4.0.0",
+                "bower-asset/morris.js": ">=0.5.1,<0.6.0",
+                "bower-asset/normalize-css": ">=4.1.1,<5.0.0",
+                "bower-asset/nprogress": ">=0.2.0,<0.3.0",
+                "bower-asset/parsleyjs": ">=2.3.10,<3.0.0",
+                "bower-asset/pdfmake": ">=0.1.20,<0.2.0",
+                "bower-asset/pnotify": ">=3.0.0,<4.0.0",
+                "bower-asset/select2": ">=4.0.2,<5.0.0",
+                "bower-asset/skycons": "*",
+                "bower-asset/starrr": ">=2.0.0,<3.0.0",
+                "bower-asset/switchery": ">=0.8.1,<0.9.0",
+                "bower-asset/validator": ">=1.0.6,<2.0.0"
             },
             "type": "bower-asset-library",
             "extra": {
-                "bower-asset-main": "dist/jquery.js",
                 "bower-asset-ignore": [
-                    "package.json"
+                    "**/.*",
+                    "documentation"
                 ]
             },
             "license": [
                 "MIT"
             ],
+            "description": "Gentelella Admin is a free to use Bootstrap admin template",
             "keywords": [
-                "browser",
-                "javascript",
-                "jquery",
-                "library"
+                "admin",
+                "backend",
+                "bootstrap",
+                "css",
+                "html",
+                "js",
+                "responsive",
+                "template",
+                "theme"
             ],
-            "time": "2016-05-20T17:24:43+00:00"
+            "time": "2017-01-25T13:54:24+00:00"
         },
         {
-            "name": "bower-asset/jquery.inputmask",
+            "name": "bower-asset/inputmask",
             "version": "3.3.10",
             "source": {
                 "type": "git",
@@ -147,6 +210,38 @@
                 "plugins"
             ],
             "time": "2017-10-16T09:33:03+00:00"
+        },
+        {
+            "name": "bower-asset/jquery",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jquery/jquery-dist.git",
+                "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/77d2a51d0520d2ee44173afdf4e40a9201f5964e",
+                "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "dist/jquery.js",
+                "bower-asset-ignore": [
+                    "package.json"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "browser",
+                "javascript",
+                "jquery",
+                "library"
+            ],
+            "time": "2017-03-20T19:02:00+00:00"
         },
         {
             "name": "bower-asset/punycode",
@@ -320,6 +415,159 @@
             "time": "2017-06-03T02:28:16+00:00"
         },
         {
+            "name": "fortawesome/font-awesome",
+            "version": "v4.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "shasum": ""
+            },
+            "require-dev": {
+                "jekyll": "1.0.2",
+                "lessc": "1.4.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.6.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OFL-1.1",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dave Gandy",
+                    "email": "dave@fontawesome.io",
+                    "homepage": "http://twitter.com/davegandy",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The iconic font and CSS framework",
+            "homepage": "http://fontawesome.io/",
+            "keywords": [
+                "FontAwesome",
+                "awesome",
+                "bootstrap",
+                "font",
+                "icon"
+            ],
+            "time": "2016-10-24T15:52:54+00:00"
+        },
+        {
+            "name": "rmrevin/yii2-fontawesome",
+            "version": "2.17.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmrevin/yii2-fontawesome.git",
+                "reference": "65ce306da864f4d558348aeba040ed7876878090"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rmrevin/yii2-fontawesome/zipball/65ce306da864f4d558348aeba040ed7876878090",
+                "reference": "65ce306da864f4d558348aeba040ed7876878090",
+                "shasum": ""
+            },
+            "require": {
+                "fortawesome/font-awesome": "~4.7",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "2.0.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "rmrevin\\yii\\fontawesome\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Revin Roman",
+                    "email": "roman@rmrevin.com",
+                    "homepage": "https://rmrevin.com/"
+                }
+            ],
+            "description": "Asset Bundle for Yii2 with Font Awesome",
+            "keywords": [
+                "asset",
+                "awesome",
+                "bundle",
+                "font",
+                "yii"
+            ],
+            "time": "2017-01-11T14:05:47+00:00"
+        },
+        {
+            "name": "smarty/smarty",
+            "version": "v3.1.31",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smarty-php/smarty.git",
+                "reference": "c7d42e4a327c402897dd587871434888fde1e7a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/c7d42e4a327c402897dd587871434888fde1e7a9",
+                "reference": "c7d42e4a327c402897dd587871434888fde1e7a9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "libs/bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Monte Ohrt",
+                    "email": "monte@ohrt.com"
+                },
+                {
+                    "name": "Uwe Tews",
+                    "email": "uwe.tews@googlemail.com"
+                },
+                {
+                    "name": "Rodney Rehm",
+                    "email": "rodney.rehm@medialize.de"
+                }
+            ],
+            "description": "Smarty - the compiling PHP template engine",
+            "homepage": "http://www.smarty.net",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2016-12-14T21:57:25+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.8",
             "source": {
@@ -375,21 +623,21 @@
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.12",
+            "version": "2.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "70acbecc75cb26b6cd66d16be0b06e4b73db190d"
+                "reference": "9f82b8f0df9adb4b8a410be5aaa97818153689d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/70acbecc75cb26b6cd66d16be0b06e4b73db190d",
-                "reference": "70acbecc75cb26b6cd66d16be0b06e4b73db190d",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/9f82b8f0df9adb4b8a410be5aaa97818153689d9",
+                "reference": "9f82b8f0df9adb4b8a410be5aaa97818153689d9",
                 "shasum": ""
             },
             "require": {
-                "bower-asset/jquery": "2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable",
-                "bower-asset/jquery.inputmask": "~3.2.2 | ~3.3.5",
+                "bower-asset/inputmask": "~3.2.2 | ~3.3.5",
+                "bower-asset/jquery": "3.2.*@stable | 3.1.*@stable | 2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable",
                 "bower-asset/punycode": "1.3.*",
                 "bower-asset/yii2-pjax": "~2.0.1",
                 "cebe/markdown": "~1.0.0 | ~1.1.0",
@@ -471,7 +719,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2017-06-05T14:33:41+00:00"
+            "time": "2017-11-02T22:09:29+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -570,6 +818,57 @@
             "time": "2016-12-20T13:26:02+00:00"
         },
         {
+            "name": "yiisoft/yii2-smarty",
+            "version": "2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-smarty.git",
+                "reference": "3ab392a1d179e9b18137bcc0f0fc9fbbc7f8f5ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-smarty/zipball/3ab392a1d179e9b18137bcc0f0fc9fbbc7f8f5ff",
+                "reference": "3ab392a1d179e9b18137bcc0f0fc9fbbc7f8f5ff",
+                "shasum": ""
+            },
+            "require": {
+                "smarty/smarty": "~3.1.0",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                },
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\smarty\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Makarov",
+                    "email": "sam@rmcreative.ru"
+                }
+            ],
+            "description": "The Smarty integration for the Yii framework",
+            "keywords": [
+                "renderer",
+                "smarty",
+                "yii2"
+            ],
+            "time": "2017-03-18T15:49:29+00:00"
+        },
+        {
             "name": "yiisoft/yii2-swiftmailer",
             "version": "2.0.7",
             "source": {
@@ -618,6 +917,64 @@
                 "yii2"
             ],
             "time": "2017-05-01T08:29:00+00:00"
+        },
+        {
+            "name": "yiister/yii2-gentelella",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiister/yii2-gentelella.git",
+                "reference": "7bf07425074231de7acfc6e1e9f4e787590f365b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiister/yii2-gentelella/zipball/7bf07425074231de7acfc6e1e9f4e787590f365b",
+                "reference": "7bf07425074231de7acfc6e1e9f4e787590f365b",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/gentelella": "*",
+                "php": ">=5.4.0",
+                "rmrevin/yii2-fontawesome": "~2.0",
+                "yiisoft/yii2": "~2.0.0",
+                "yiisoft/yii2-bootstrap": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yiister\\gentelella\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Fedotov",
+                    "email": "fps.06@mail.ru",
+                    "homepage": "https://github.com/fps01",
+                    "role": "Creator"
+                }
+            ],
+            "description": "Free admin template for backend",
+            "keywords": [
+                "admin",
+                "asset",
+                "backend",
+                "bootsprap3",
+                "extension",
+                "gentelella",
+                "theme",
+                "yii2"
+            ],
+            "time": "2017-08-19T09:05:56+00:00"
         }
     ],
     "packages-dev": [
@@ -1441,16 +1798,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "5.2.2",
+            "version": "5.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "8ed1902a57849e117b5651fc1a5c48110946c06b"
+                "reference": "8e1d2397d8adf59a3f12b2878a3aaa66d1ab189d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/8ed1902a57849e117b5651fc1a5c48110946c06b",
-                "reference": "8ed1902a57849e117b5651fc1a5c48110946c06b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/8e1d2397d8adf59a3f12b2878a3aaa66d1ab189d",
+                "reference": "8e1d2397d8adf59a3f12b2878a3aaa66d1ab189d",
                 "shasum": ""
             },
             "require": {
@@ -1459,7 +1816,7 @@
                 "php": "^7.0",
                 "phpunit/php-file-iterator": "^1.4.2",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-token-stream": "^1.4.11 || ^2.0",
+                "phpunit/php-token-stream": "^2.0",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
                 "sebastian/environment": "^3.0",
                 "sebastian/version": "^2.0.1",
@@ -1501,7 +1858,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-08-03T12:40:43+00:00"
+            "time": "2017-11-03T13:47:33+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1976,30 +2333,30 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "2.0.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "ae068fede81d06e7bb9bb46a367210a3d3e1fe6a"
+                "reference": "1174d9018191e93cb9d719edec01257fc05f8158"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/ae068fede81d06e7bb9bb46a367210a3d3e1fe6a",
-                "reference": "ae068fede81d06e7bb9bb46a367210a3d3e1fe6a",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/1174d9018191e93cb9d719edec01257fc05f8158",
+                "reference": "1174d9018191e93cb9d719edec01257fc05f8158",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
                 "sebastian/diff": "^2.0",
-                "sebastian/exporter": "^3.0"
+                "sebastian/exporter": "^3.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.0"
+                "phpunit/phpunit": "^6.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.1.x-dev"
                 }
             },
             "autoload": {
@@ -2030,13 +2387,13 @@
                 }
             ],
             "description": "Provides the functionality to compare PHP values for equality",
-            "homepage": "http://www.github.com/sebastianbergmann/comparator",
+            "homepage": "https://github.com/sebastianbergmann/comparator",
             "keywords": [
                 "comparator",
                 "compare",
                 "equality"
             ],
-            "time": "2017-08-03T07:14:59+00:00"
+            "time": "2017-11-03T07:16:52+00:00"
         },
         {
             "name": "sebastian/diff",
