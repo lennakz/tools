@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "inventories".
@@ -55,4 +56,29 @@ class Inventory extends \yii\db\ActiveRecord
             'updated_date' => 'Updated Date',
         ];
     }
+	
+	public function getTool()
+	{
+		return $this->hasOne(Tool::className(), ['id' => 'tool_id']);
+	}
+	
+	public function getJobSite()
+	{
+		return $this->hasOne(JobSite::className(), ['id' => 'job_site_id']);
+	}
+	
+	public function getAllToolsArray()
+	{
+		return ArrayHelper::map(Tool::find()->all(), 'id', 'name');
+	}
+	
+	public function getAllJobSitesArray()
+	{
+		return ArrayHelper::map(JobSite::find()->all(), 'id', 'street');
+	}
+	
+	public function getWorkingText()
+	{
+		return $this->working ? 'Yes' : 'No';
+	}
 }
