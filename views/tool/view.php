@@ -34,6 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Make',
 				'attribute' => 'make.name',
 			],
+			[
+				'label' => 'Category',
+				'attribute' => 'category.name',
+			],
             'model',
         ],
     ]) ?>

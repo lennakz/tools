@@ -20,18 +20,16 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'street',
             'city',
             'province',
             'postal_code',
             // 'complete',
-            // 'created_date',
-            // 'updated_date',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+				'class' => 'yii\grid\ActionColumn',
+				'header' => 'Actions',
+			],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

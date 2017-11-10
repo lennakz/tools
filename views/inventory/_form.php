@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'working')->checkbox() ?>
+    <?= $form->field($model, 'status_id')->dropDownList($model->getAllStatusesArray(), ['prompt' => 'Select Status']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

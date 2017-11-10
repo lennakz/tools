@@ -16,7 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Inventory', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php Pjax::begin(); ?>    
+	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'id',
@@ -24,18 +25,19 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Tool',
 				'attribute' => 'tool.name',
 			],
-            'serial_number',
             [
 				'label' => 'Job Site',
 				'attribute' => 'jobSite.street',
 			],
-            'note:ntext',
-			[
-				'label' => 'Working',
-				'attribute' => 'workingText',
+            [
+				'label' => 'Status',
+				'attribute' => 'status.status',
 			],
-
-            ['class' => 'yii\grid\ActionColumn'],
+			'note:ntext',
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'header' => 'Actions',
+			],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

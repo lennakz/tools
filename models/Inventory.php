@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property string $serial_number
  * @property integer $job_site_id
  * @property string $note
- * @property integer $working
+ * @property integer $status_id
  * @property string $created_date
  * @property string $updated_date
  */
@@ -33,7 +33,7 @@ class Inventory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tool_id', 'job_site_id', 'working'], 'integer'],
+            [['tool_id', 'job_site_id', 'status_id'], 'integer'],
             [['note'], 'string'],
             [['created_date', 'updated_date'], 'safe'],
             [['serial_number'], 'string', 'max' => 255],
@@ -51,7 +51,7 @@ class Inventory extends \yii\db\ActiveRecord
             'serial_number' => 'Serial Number',
             'job_site_id' => 'Job Site ID',
             'note' => 'Note',
-            'working' => 'Working',
+            'status_id' => 'Status ID',
             'created_date' => 'Created Date',
             'updated_date' => 'Updated Date',
         ];
@@ -67,6 +67,11 @@ class Inventory extends \yii\db\ActiveRecord
 		return $this->hasOne(JobSite::className(), ['id' => 'job_site_id']);
 	}
 	
+	public function getStatus()
+	{
+		return $this->hasOne(InventoryStatus::className(), ['id' => 'status_id']);
+	}
+	
 	public function getAllToolsArray()
 	{
 		return ArrayHelper::map(Tool::find()->all(), 'id', 'name');
@@ -77,8 +82,9 @@ class Inventory extends \yii\db\ActiveRecord
 		return ArrayHelper::map(JobSite::find()->all(), 'id', 'street');
 	}
 	
-	public function getWorkingText()
+	public function getAllStatusesArray()
 	{
-		return $this->working ? 'Yes' : 'No';
+		return ArrayHelper::map(InventoryStatus::find()->all(), 'id', 'status');
 	}
+	
 }

@@ -22,10 +22,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'name',
-            'make.name',
+			[
+				'label' => 'Make',
+				'attribute' => 'make.name',
+			],
+			[
+				'label' => 'Category',
+				'attribute' => 'category.name',
+			],
             'model',
-
-            ['class' => 'yii\grid\ActionColumn'],
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'header' => 'Actions',
+			],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

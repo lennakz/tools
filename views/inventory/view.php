@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Inventory */
 
-$this->title = $model->id;
+$this->title = $model->tool->name;
 $this->params['breadcrumbs'][] = ['label' => 'Inventories', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -38,11 +38,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'label' => 'Job Site',
 				'attribute' => 'jobSite.street',
 			],
-            'note:ntext',
-			[
-				'label' => 'Working',
-				'attribute' => 'workingText',
+            [
+				'label' => 'Status',
+				'attribute' => 'status.status',
 			],
+			'note:ntext',
         ],
     ]) ?>
 

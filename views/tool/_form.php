@@ -15,6 +15,10 @@ use yii\helpers\Url;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+	
+	<?= $form->field($model, 'category_id')->dropDownList($model->getAllCategoriesArray(), ['prompt' => 'Select Category'])->label('Category') ?>
+	
+	<?= Html::a('Create new Make', Url::to(['tool/createCategory'])) ?>
 
     <?= $form->field($model, 'make')->dropDownList($model->getAllMakesArray(), ['prompt' => 'Select Make']) ?>
 	

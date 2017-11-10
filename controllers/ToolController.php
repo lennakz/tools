@@ -38,20 +38,23 @@ class ToolController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Tool::find()->joinWith('make'),
-			'sort' => new Sort(
-				[
-					'attributes' => [
-						'make.name' => [
-							'asc' => ['make.name' => SORT_ASC],
-							'desc' => ['make.name' => SORT_DESC],
-						],
-						'id',
-						'name'
+			'sort' => new Sort([
+				'attributes' => [
+					'make.name' => [
+						'asc' => ['make.name' => SORT_ASC],
+						'desc' => ['make.name' => SORT_DESC],
 					],
-					'defaultOrder' => [
-						'id' => SORT_ASC,
+					'category.name' => [
+						'asc' => ['category.name' => SORT_ASC],
+						'desc' => ['category.name' => SORT_DESC],
 					],
-				]),
+					'id',
+					'name'
+				],
+				'defaultOrder' => [
+					'id' => SORT_ASC,
+				],
+			]),
         ]);
 
         return $this->render('index', [
@@ -135,5 +138,23 @@ class ToolController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+	
+	 /**
+     * Creates a new Tool model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateCategory()
+    {
+//        $model = new Tool();
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        } else {
+//            return $this->render('create', [
+//                'model' => $model,
+//            ]);
+//        }
     }
 }

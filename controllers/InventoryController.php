@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Inventory;
 use yii\data\ActiveDataProvider;
+use yii\data\Sort;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,12 +37,33 @@ class InventoryController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Inventory::find(),
+            'query' => Inventory::find()->joinWith(['tool', 'jobSite']),
+			'sort' => new Sort([
+				'attributes' => [
+					'id',
+					'tool.name' => [
+						'asc' => ['tool.name' => SORT_ASC],
+						'desc' => ['tool.name' => SORT_DESC],
+					],
+					'jobSite.street' => [
+						'asc' => ['jobSite.name' => SORT_ASC],
+						'desc' => ['jobSite.name' => SORT_DESC],
+					],
+					'note',
+					'status.status' => [
+						'asc' => ['status.status' => SORT_ASC],
+						'desc' => ['status.status' => SORT_DESC],
+					],
+				],
+				'defaultOrder' => [
+					'id' => SORT_ASC,
+				],
+			]),
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-        ]);
+		]);
     }
 
     /**

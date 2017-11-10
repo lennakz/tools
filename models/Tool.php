@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property string $model
  * @property string $created_date
  * @property string $updated_date
+ * @property integer $category_id
  */
 class Tool extends \yii\db\ActiveRecord
 {
@@ -31,10 +32,9 @@ class Tool extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['make_id'], 'integer'],
+            [['make_id', 'category_id'], 'integer'],
             [['created_date', 'updated_date'], 'safe'],
             [['name', 'model'], 'string', 'max' => 255],
-			[['name'], 'unique'],
         ];
     }
 
@@ -46,10 +46,11 @@ class Tool extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'make_id' => 'Make',
+            'make_id' => 'Make ID',
             'model' => 'Model',
             'created_date' => 'Created Date',
             'updated_date' => 'Updated Date',
+            'category_id' => 'Category ID',
         ];
     }
 	
@@ -58,9 +59,19 @@ class Tool extends \yii\db\ActiveRecord
 		return $this->hasOne(Make::className(), ['id' => 'make_id']);
 	}
 	
+	public function getCategory()
+	{
+		return $this->hasOne(ToolCategory::className(), ['id' => 'category_id']);
+	}
+	
 	public function getAllMakesArray()
 	{
 		return ArrayHelper::map(Make::find()->all(), 'id', 'name');
+	}
+	
+	public function getAllCategoriesArray()
+	{
+		return ArrayHelper::map(ToolCategory::find()->all(), 'id', 'name');
 	}
 	
 }
