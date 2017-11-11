@@ -18,12 +18,16 @@ use yii\helpers\Url;
 	
 	<?= $form->field($model, 'category_id')->dropDownList($model->getAllCategoriesArray(), ['prompt' => 'Select Category'])->label('Category') ?>
 	
-	<?= Html::a('Create new Make', Url::to(['tool/createCategory'])) ?>
-
+	<div class="form-group">
+		<?= Html::a('Add New Category', Url::to(['tool/createCategory'])) ?>
+	</div>	
+		
     <?= $form->field($model, 'make')->dropDownList($model->getAllMakesArray(), ['prompt' => 'Select Make']) ?>
 	
-	<?= Html::a('Create new Make', Url::to(['make/create'])) ?>
-
+	<div class="form-group">
+		<?= Html::a('Create new Make', Url::to(['make/create'])) ?>
+	</div>
+		
     <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">

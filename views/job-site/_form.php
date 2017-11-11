@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\JobSite;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\JobSite */
@@ -16,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'province')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'province')->dropDownList(JobSite::getProvincesArray(), ['prompt' => 'Select Province', 'value' => 'BC']) ?>
 
     <?= $form->field($model, 'postal_code')->textInput(['maxlength' => true]) ?>
 

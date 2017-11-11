@@ -33,6 +33,7 @@ class Tool extends \yii\db\ActiveRecord
     {
         return [
             [['make_id', 'category_id'], 'integer'],
+			[['name', 'make_id', 'category_id'], 'required'],
             [['created_date', 'updated_date'], 'safe'],
             [['name', 'model'], 'string', 'max' => 255],
         ];

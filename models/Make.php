@@ -28,6 +28,7 @@ class Make extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+			[['name'], 'required'],
             [['created_date', 'updated_date'], 'safe'],
             [['name'], 'string', 'max' => 255],
 			[['name'], 'required'],

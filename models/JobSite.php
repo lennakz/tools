@@ -33,6 +33,7 @@ class JobSite extends \yii\db\ActiveRecord
     {
         return [
             [['complete'], 'integer'],
+			[['street', 'city', 'province'], 'required'],
             [['created_date', 'updated_date'], 'safe'],
             [['street', 'city', 'postal_code'], 'string', 'max' => 255],
             [['province'], 'string', 'max' => 2],
@@ -64,5 +65,26 @@ class JobSite extends \yii\db\ActiveRecord
 			$this->updated_date = date('Y-m-d H:i:s');
 		
 		return parent::beforeSave($insert);
+	}
+	
+	public static function getProvincesArray()
+	{
+		$provinces = [
+			'AB' => 'Alberta',
+			'BC' => 'British Columbia',
+			'MB' => 'Manitoba',
+			'NB' => 'New Brunswick',
+			'NL' => 'Newfoundland and Labrador',
+			'NT' => 'Northwest Territories',
+			'NS' => 'Nova Scotia',
+			'NU' => 'Nunavut',
+			'ON' => 'Ontario',
+			'PE' => 'Prince Edward Island',
+			'QC' => 'Quebec',
+			'SK' => 'Saskatchewan',
+			'YT' => 'Yukon',
+		];
+
+		return $provinces;
 	}
 }

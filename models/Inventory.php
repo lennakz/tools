@@ -34,6 +34,7 @@ class Inventory extends \yii\db\ActiveRecord
     {
         return [
             [['tool_id', 'job_site_id', 'status_id'], 'integer'],
+			[['tool_id', 'job_site_id', 'status_id'], 'required'],
             [['note'], 'string'],
             [['created_date', 'updated_date'], 'safe'],
             [['serial_number'], 'string', 'max' => 255],
