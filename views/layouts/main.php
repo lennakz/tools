@@ -41,13 +41,13 @@ AppAsset::register($this);
 					['label' => 'Tools', 'url' => ['/tool/index']],
 					['label' => 'Makes', 'url' => ['/make/index']],
 					['label' => 'Job Sites', 'url' => ['/job-site/index']],
-					['label' => 'About', 'url' => ['/site/about']],
-					['label' => 'Contact', 'url' => ['/site/contact']],
+					['label' => 'About', 'url' => ['/inventory/about']],
+					['label' => 'Contact', 'url' => ['/inventory/contact']],
 					Yii::$app->user->isGuest ? (
-						['label' => 'Login', 'url' => ['/site/login']]
+						['label' => 'Login', 'url' => ['/inventory/login']]
 						) : (
 						'<li>'
-						. Html::beginForm(['/site/logout'], 'post')
+						. Html::beginForm(['/inventory/logout'], 'post')
 						. Html::submitButton(
 							'Logout (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-link logout']
 						)

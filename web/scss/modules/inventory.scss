@@ -1,0 +1,10 @@
+/* InventoryController views */
+
+.inventory-index {
+	.filter-buttons {
+		text-align: center;
+		& > div.dropdown {
+			display: inline-block;
+		}
+	}
+}

@@ -1,4 +1,4 @@
-<div class="site-about">
+<div class="inventory-about">
     <h1>{$this->title|escape}</h1>
 
     <p>

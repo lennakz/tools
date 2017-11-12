@@ -1,0 +1,7 @@
+/* InventoryController views */
+.inventory-index .filter-buttons {
+  text-align: center; }
+  .inventory-index .filter-buttons > div.dropdown {
+    display: inline-block; }
+
+/*# sourceMappingURL=inventory.css.map */
