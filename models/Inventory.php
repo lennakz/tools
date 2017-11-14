@@ -73,6 +73,11 @@ class Inventory extends \yii\db\ActiveRecord
 		return $this->hasOne(InventoryStatus::className(), ['id' => 'status_id']);
 	}
 	
+	public function getCategory()
+	{
+		return $this->hasOne(ToolCategory::className(), ['id' => 'category_id'])->via('tool');
+	}
+	
 	public function getAllToolsArray()
 	{
 		return ArrayHelper::map(Tool::find()->all(), 'id', 'name');

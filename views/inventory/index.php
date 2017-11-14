@@ -6,10 +6,6 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
-use app\models\ToolCategory;
-use app\models\InventoryStatus;
-use app\models\JobSite;
-
 use dosamigos\typeahead\TypeAhead;
 use dosamigos\typeahead\Bloodhound;
 
@@ -18,6 +14,18 @@ use dosamigos\typeahead\Bloodhound;
 
 $this->title = 'Inventories';
 
+$engine = new Bloodhound([
+	'name' => 'inventoriesEngine',
+	'clientOptions' => [
+		'datumTokenizer' => new \yii\web\JsExpression("Bloodhound.tokenizers.obj.whitespace('name')"),
+		'queryTokenizer' => new \yii\web\JsExpression("Bloodhound.tokenizers.whitespace"),
+		'remote' => [
+			'url' => Url::to(['inventoriesJson', 'query'=>'QRY']),
+			'wildcard' => 'QRY'
+		]
+	]
+]);
+
 ?>
 <div class="inventory-index">
 
@@ -25,8 +33,28 @@ $this->title = 'Inventories';
 	
 	<div>
 		<form>
-			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search">
+			<div class="typeahead__container">
+				<div class="typeahead__field">
+
+					<span class="typeahead__query">
+						<input class="js-typeahead"
+							   name="q"
+							   type="search"
+							   autocomplete="off"
+							   placeholder="Search for name...">
+					</span>
+					<span class="typeahead__button">
+						<button type="submit">
+							<span class="typeahead__search-icon"></span>
+						</button>
+					</span>
+
+				</div>
+			</div>
+		</form>
+		<form>
+			<div class="input-group" id="bloodhound">
+				<input type="text" class="typeahead form-control" placeholder="Search">
 				<div class="input-group-btn">
 					<button class="btn btn-default" type="submit">
 						<i class="glyphicon glyphicon-search"></i>
@@ -40,35 +68,22 @@ $this->title = 'Inventories';
 	
 	<div class="filter-buttons">
 		<?= Html::a('Show All', ['index'], ['class' => 'btn btn-default']); ?>
-		<div class="dropdown">
-			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Categories<span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				<?php foreach (ToolCategory::find()->all() as $cat): ?>
-					<li><a href="<?= Url::toRoute(['index', 'cat' => $cat->id]) ?>" class="refresh-table"><?= $cat->name ?></a></li>
-				<?php endforeach; ?>
-			</ul>
-		</div>
-		<div class="dropdown">
-			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Status<span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				<?php foreach (InventoryStatus::find()->all() as $status): ?>
-					<li><a href="<?= Url::toRoute(['index', 'status' => $status->id]) ?>" class="refresh-table"><?= $status->status ?></a></li>
-				<?php endforeach; ?>
-			</ul>
-		</div>
-		<div class="dropdown">
-			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Job Sites<span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				<?php foreach (JobSite::find()->all() as $job_site): ?>
-					<li><a href="<?= Url::toRoute(['index', 'job_site' => $job_site->id]) ?>" class="refresh-table"><?= $job_site->street ?></a></li>
-				<?php endforeach; ?>
-			</ul>
-		</div>
+		<?php foreach ($filter_buttons_array as $cat_name => $cats): ?>
+			<div class="dropdown">
+				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><?= $cat_name ?><span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<?php foreach ($cats as $id => $cat): ?>
+						<li><a href="<?= $cat['url'] ?>" class="refresh-table"><?= $cat['name'] ?></a></li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		<?php endforeach; ?>
 	</div>
 	
 	<?php Pjax::begin([
-		'linkSelector' => '.refresh-table',
+		//'linkSelector' => '.refresh-table',
 	]); ?>    
+		<h3 class="filter-header text-center">Showing <?= $filter_header ?></h3>
 		<?=	GridView::widget([
 				'dataProvider' => $dataProvider,
 				'columns' => [
@@ -79,7 +94,7 @@ $this->title = 'Inventories';
 					],
 					[
 						'label' => 'Category',
-						'attribute' => 'tool.category.name',
+						'attribute' => 'category.name',
 					],
 					[
 						'label' => 'Job Site',
@@ -94,8 +109,45 @@ $this->title = 'Inventories';
 						'header' => 'Actions',
 					],
 				],
+				'summary' => '<p class="text-center">Showing {begin}-{end} out of total {totalCount} records</p>',
 			]);
 		?>
 	<?php Pjax::end(); ?>
 	
 </div>
+
+<script>
+	$(function() {
+		var clients = new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			limit: 10,
+			prefetch: {
+				ttl: 1000, 
+				url: 'inventory/json'
+			}
+		});
+		
+		clients.initialize();
+		
+		$('.js-typeahead').typeahead(null, {
+			name: 'clients',
+			displayKey: 'html',
+			source: clients.ttAdapter(),
+			templates: {
+				suggestion: function(obj) {
+					var html =
+						'<div class="container">' +
+							'<div class="row suggestion-box">' +
+									'<span class="player-name">' + obj.name + '</span>' +
+									
+								'</a>' +
+							'</div>' +
+						'</div>';
+					
+					return html;
+				}
+			}
+		});
+	});
+</script>
