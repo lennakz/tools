@@ -1,6 +1,7 @@
 <?php
 
 $host = ($_SERVER['REMOTE_ADDR'] == '107.180.24.240') ? 'localhost' : '107.180.24.240';
+$host = 'localhost';
 
 return [
 	'class' => 'yii\db\Connection',
