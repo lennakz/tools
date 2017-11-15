@@ -167,7 +167,7 @@ class InventoryController extends Controller
 				
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
-			'sort' => new Sort([
+			'sort' => [
 				'attributes' => [
 					'id',
 					'tool.name' => [
@@ -190,7 +190,7 @@ class InventoryController extends Controller
 				'defaultOrder' => [
 					'id' => SORT_ASC,
 				],
-			]),
+			],
         ]);
 		
         return $this->render('index', [

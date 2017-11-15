@@ -81,7 +81,8 @@ $engine = new Bloodhound([
 	</div>
 	
 	<?php Pjax::begin([
-		//'linkSelector' => '.refresh-table',
+		'id' => 'pjax-gridview',
+		'linkSelector' => '#pjax-gridview a, .refresh-table',
 	]); ?>    
 		<h3 class="filter-header text-center">Showing <?= $filter_header ?></h3>
 		<?=	GridView::widget([
