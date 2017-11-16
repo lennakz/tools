@@ -1,6 +1,0 @@
-# prevent directory listings
-Options -Indexes
-IndexIgnore */*
- 
-RewriteEngine on
-RewriteRule ^(.+)?$ web/$1
