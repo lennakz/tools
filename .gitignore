@@ -4,6 +4,10 @@
 # netbeans project files
 nbproject
 
+# Apache conf files
+.htaccess
+/web/.htaccess
+
 # zend studio for eclipse project files
 .buildpath
 .project
