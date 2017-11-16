@@ -197,7 +197,6 @@ class InventoryController extends Controller
             'dataProvider' => $dataProvider,
 			'filter_header' => $filter_header,
 			'filter_buttons_array' => $filter_buttons_array,
-			'inventories' => Inventory::find()->all(),
 		]);
     }
 	
@@ -226,13 +225,17 @@ class InventoryController extends Controller
 		return $array;
 	}
 
-	public function actionJson()
+	public function actionInventories_json()
 	{
 		$array = [];
-		foreach (Inventory::find()->all() as $m)
+		foreach (Inventory::find()->with(['jobSite', 'tool', 'status'])->all() as $m)
 		{
-			$array['id'] = $m->id;
-			$array['name'] = $m->tool->name;
+			$array[] = [
+				'id' => $m->id,
+				'name' => $m->tool->name,
+				'job_site' => $m->jobSite->street,
+				'status' => $m->status->status,
+			];
 		}
 		
 		echo Json::encode($array);

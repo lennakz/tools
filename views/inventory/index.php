@@ -8,20 +8,25 @@ use yii\widgets\Pjax;
 
 use dosamigos\typeahead\TypeAhead;
 use dosamigos\typeahead\Bloodhound;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Inventories';
 
+$template = '<div><p class="repo-language">{{name}}</p>' .
+    '<p class="repo-name">{{job_site}}</p>' .
+    '<p class="repo-description">{{status}}</p></div>';
+
 $engine = new Bloodhound([
-	'name' => 'inventoriesEngine',
+	'name' => 'inventoryEngine',
 	'clientOptions' => [
-		'datumTokenizer' => new \yii\web\JsExpression("Bloodhound.tokenizers.obj.whitespace('name')"),
-		'queryTokenizer' => new \yii\web\JsExpression("Bloodhound.tokenizers.whitespace"),
-		'remote' => [
-			'url' => Url::to(['inventoriesJson', 'query'=>'QRY']),
-			'wildcard' => 'QRY'
+		'datumTokenizer' => new JsExpression("Bloodhound.tokenizers.obj.whitespace('name')"),
+		'queryTokenizer' => new JsExpression("Bloodhound.tokenizers.whitespace"),
+		'prefetch' => [
+			'url' => Url::to(['inventory/inventories_json']),
+			'ttl' => 1000,//3600000, // 1 hour
 		]
 	]
 ]);
@@ -32,39 +37,30 @@ $engine = new Bloodhound([
     <h1><?= Html::encode($this->title) ?></h1>
 	
 	<div>
-		<form>
-			<div class="typeahead__container">
-				<div class="typeahead__field">
-
-					<span class="typeahead__query">
-						<input class="js-typeahead"
-							   name="q"
-							   type="search"
-							   autocomplete="off"
-							   placeholder="Search for name...">
-					</span>
-					<span class="typeahead__button">
-						<button type="submit">
-							<span class="typeahead__search-icon"></span>
-						</button>
-					</span>
-
-				</div>
-			</div>
-		</form>
-		<form>
-			<div class="input-group" id="bloodhound">
-				<input type="text" class="typeahead form-control" placeholder="Search">
-				<div class="input-group-btn">
-					<button class="btn btn-default" type="submit">
-						<i class="glyphicon glyphicon-search"></i>
-					</button>
-					<?= Html::a('Create new', ['create'], ['class' => 'btn btn-default']); ?>
-				</div>
-			</div>
-		</form>
+		<?= TypeAhead::widget([
+			'name' => 'inventories', 
+			'options' => ['placeholder' => 'Search for inventories ...', 'class' => 'form-control'],
+			'engines' => [ $engine ],
+			'clientOptions' => [
+				'highlight' => true,
+//				'templates' => [
+//					'notFound' => 'Not found',
+//					'suggestion' => $template,
+//				],
+			],
+			'dataSets' => [
+				[
+					'name' => 'typeahead-form',
+					'source' => $engine->getAdapterScript(),
+					'displayKey' => 'name',
+				],
+			],			
+		]); 
+		?>
 	</div>
 	<br><br><br>
+	
+	<?= Html::a('Create new', ['create'], ['class' => 'btn btn-default']); ?>
 	
 	<div class="filter-buttons">
 		<?= Html::a('Show All', ['index'], ['class' => 'btn btn-default']); ?>
@@ -83,8 +79,9 @@ $engine = new Bloodhound([
 	<?php Pjax::begin([
 		'id' => 'pjax-gridview',
 		'linkSelector' => '#pjax-gridview a, .refresh-table',
+		'timeout' => 10000,
 	]); ?>    
-		<h3 class="filter-header text-center">Showing <?= $filter_header ?></h3>
+		<h3 class="filter-header text-center">Showing //<?= $filter_header ?></h3>
 		<?=	GridView::widget([
 				'dataProvider' => $dataProvider,
 				'columns' => [
@@ -114,41 +111,5 @@ $engine = new Bloodhound([
 			]);
 		?>
 	<?php Pjax::end(); ?>
-	
+		
 </div>
-
-<script>
-	$(function() {
-		var clients = new Bloodhound({
-			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			limit: 10,
-			prefetch: {
-				ttl: 1000, 
-				url: 'inventory/json'
-			}
-		});
-		
-		clients.initialize();
-		
-		$('.js-typeahead').typeahead(null, {
-			name: 'clients',
-			displayKey: 'html',
-			source: clients.ttAdapter(),
-			templates: {
-				suggestion: function(obj) {
-					var html =
-						'<div class="container">' +
-							'<div class="row suggestion-box">' +
-									'<span class="player-name">' + obj.name + '</span>' +
-									
-								'</a>' +
-							'</div>' +
-						'</div>';
-					
-					return html;
-				}
-			}
-		});
-	});
-</script>
