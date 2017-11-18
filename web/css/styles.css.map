@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAAA,+BAA+B;AAG9B,gCAAgB;EACf,UAAU,EAAE,MAAM;EAClB,+CAAiB;IAChB,OAAO,EAAE,YAAY",
-"sources": ["../scss/modules/inventory.scss"],
+"mappings": "AAAA,+BAA+B;AAG9B,gCAAgB;EACf,UAAU,EAAE,MAAM;EAClB,+CAAiB;IAChB,OAAO,EAAE,YAAY;;ACNxB;;+BAEgC;EAC/B,KAAK,EAAE,IAAI;;AAGZ,kBAAmB;EAClB,OAAO,EAAE,CAAC",
+"sources": ["../scss/modules/inventory.scss","../scss/modules/forms.scss"],
 "names": [],
 "file": "styles.css"
 }

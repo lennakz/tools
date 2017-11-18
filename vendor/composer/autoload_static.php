@@ -40,6 +40,7 @@ class ComposerStaticInit4378d99bb60cb9e831e03693aff4943d
         'd' => 
         array (
             'dosamigos\\typeahead\\' => 20,
+            'dosamigos\\select2\\' => 18,
         ),
         'c' => 
         array (
@@ -137,6 +138,10 @@ class ComposerStaticInit4378d99bb60cb9e831e03693aff4943d
         'dosamigos\\typeahead\\' => 
         array (
             0 => __DIR__ . '/..' . '/2amigos/yii2-type-ahead-widget/src',
+        ),
+        'dosamigos\\select2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-select2-widget/src',
         ),
         'cebe\\markdown\\' => 
         array (

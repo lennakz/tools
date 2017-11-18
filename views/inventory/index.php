@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 use yii\grid\GridView;
+use yii\grid\CheckboxColumn;
 use yii\widgets\Pjax;
 
 use dosamigos\typeahead\TypeAhead;
@@ -15,9 +16,12 @@ use yii\web\JsExpression;
 
 $this->title = 'Inventories';
 
-$template = '<div><p class="repo-language">{{name}}</p>' .
-    '<p class="repo-name">{{job_site}}</p>' .
-    '<p class="repo-description">{{status}}</p></div>';
+$template = 
+	'<div>'
+	. '<p class="">{{name}}</p>' .
+		'<p class="repo-name">{{job_site}}</p>' .
+		'<p class="repo-description">{{status}}</p>'
+	. '</div>';
 
 $engine = new Bloodhound([
 	'name' => 'inventoryEngine',
@@ -26,7 +30,7 @@ $engine = new Bloodhound([
 		'queryTokenizer' => new JsExpression("Bloodhound.tokenizers.whitespace"),
 		'prefetch' => [
 			'url' => Url::to(['inventory/inventories_json']),
-			'ttl' => 1000,//3600000, // 1 hour
+			'ttl' => 3600000, // 1 hour
 		]
 	]
 ]);
@@ -43,16 +47,17 @@ $engine = new Bloodhound([
 			'engines' => [ $engine ],
 			'clientOptions' => [
 				'highlight' => true,
-//				'templates' => [
-//					'notFound' => 'Not found',
-//					'suggestion' => $template,
-//				],
+				'minLength' => 2				
 			],
 			'dataSets' => [
 				[
 					'name' => 'typeahead-form',
 					'source' => $engine->getAdapterScript(),
 					'displayKey' => 'name',
+					'templates' => [
+						'notFound' => '<div>Unable to find repositories for selected query.</div',
+						'suggestion' => new JsExpression("Handlebars.compile('{$template}')"),
+					],
 				],
 			],			
 		]); 
@@ -81,7 +86,7 @@ $engine = new Bloodhound([
 		'linkSelector' => '#pjax-gridview a, .refresh-table',
 		'timeout' => 10000,
 	]); ?>    
-		<h3 class="filter-header text-center">Showing //<?= $filter_header ?></h3>
+		<h3 class="filter-header text-center">Showing <?= $filter_header ?></h3>
 		<?=	GridView::widget([
 				'dataProvider' => $dataProvider,
 				'columns' => [
@@ -106,6 +111,7 @@ $engine = new Bloodhound([
 						'class' => 'yii\grid\ActionColumn',
 						'header' => 'Actions',
 					],
+					['class' => CheckboxColumn::className()],
 				],
 				'summary' => '<p class="text-center">Showing {begin}-{end} out of total {totalCount} records</p>',
 			]);

@@ -4,9 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 
+use dosamigos\select2\Select2Bootstrap;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Inventory */
 /* @var $form yii\widgets\ActiveForm */
+
 
 ?>
 
@@ -14,8 +17,19 @@ use yii\helpers\Url;
 
 	<?php $form = ActiveForm::begin(); ?>
 
-		<?= $form->field($model, 'tool_id')->dropDownList($model->getAllToolsArray(), ['prompt' => 'Select Tool'])->label('Tool') ?>
-
+		<?= $form->field($model, 'tool_id')->label('Tool')->widget(
+			Select2Bootstrap::class, 
+				[
+					'items' => $model->getAllToolsArray(), // $data should be the same as the items provided to a regular yii2 dropdownlist
+					'clientOptions' => [
+						'placeholder' => 'Select tool name',
+						'width' => '100%',
+						'allowClear' => true,
+					],
+				]
+			);
+		?>
+			
 		<div class="form-group">
 			<?= Html::a('Add New Tool', Url::to(['tool/create'])) ?>
 		</div>	

@@ -19,6 +19,7 @@ use yii\filters\AccessControl;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Inventory;
+use app\models\Tool;
 use app\models\ToolCategory;
 use app\models\InventoryStatus;
 use app\models\JobSite;
@@ -70,7 +71,7 @@ class InventoryController extends Controller
             ],
         ];
     }
-	
+
 	/**
      * Login action.
      *
@@ -130,10 +131,10 @@ class InventoryController extends Controller
     {
 		$this->view->title = 'About';
 		$this->view->params['breadcrumbs'][] = $this->view->title;
-		
+
         return $this->render('about.tpl');
     }
-	
+
     /**
      * Lists all Inventory models.
      * @return mixed
@@ -144,27 +145,25 @@ class InventoryController extends Controller
 		$filter_buttons_array = $this->getFilterButtonsArray();
 		$param = app()->request->get();
 		
+		$query = Inventory::find()->joinWith(['tool', 'jobSite', 'status', 'category']);
+		$filter_header = 'All';
+
 		if (!empty($param['cat']))
 		{
+			$query = $query->where(['tools.category_id' => $param['cat']]);
 			$filter_header = 'Categories: ' . $filter_buttons_array['Categories'][$param['cat']]['name'];
-			$query = Inventory::find()->where(['tools.category_id' => $param['cat']])->joinWith(['tool', 'jobSite', 'status', 'category']);
 		}
 		elseif (!empty($param['status']))
 		{
+			$query = $query->where(['status_id' => $param['status']]);
 			$filter_header = 'Statuses: ' . $filter_buttons_array['Status'][$param['status']]['name'];
-			$query = Inventory::find()->where(['status_id' => $param['status']])->joinWith(['tool', 'jobSite', 'status', 'category']);
 		}
 		elseif (!empty($param['job_site']))
 		{
-			$filter_header = 'Job Sites: ' . $filter_buttons_array['Job Sites'][$param['job_site']]['name'];
-			$query = Inventory::find()->where(['job_site_id' => $param['job_site']])->joinWith(['tool', 'jobSite', 'status', 'category']);
+			$query = $query->where(['job_site_id' => $param['job_site']]);
+			$filter_header = 'Job Sites: ' . $filter_buttons_array['Job Sites'][$param['job_site']]['name'];			
 		}
-		else
-		{
-			$query = Inventory::find()->joinWith(['tool', 'jobSite', 'status', 'category']);
-			$filter_header = 'All';
-		}
-				
+
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
 			'sort' => [
@@ -192,36 +191,36 @@ class InventoryController extends Controller
 				],
 			],
         ]);
-		
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
 			'filter_header' => $filter_header,
 			'filter_buttons_array' => $filter_buttons_array,
 		]);
     }
-	
+
 	public function getFilterButtonsArray()
 	{
 		$array = [];
-		
+
 		foreach (ToolCategory::find()->all() as $cat)
 			$array['Categories'][$cat->id] = [
 				'name' => $cat->name,
 				'url' => Url::toRoute(['index', 'cat' => $cat->id]),
 			];
-		
+
 		foreach (InventoryStatus::find()->all() as $status)
 			$array['Status'][$status->id] = [
 				'name' => $status->status,
 				'url' => Url::toRoute(['index', 'status' => $status->id]),
 			];
-		
+
 		foreach (JobSite::find()->all() as $job_site)
 			$array['Job Sites'][$job_site->id] = [
 				'name' => $job_site->street,
 				'url' => Url::toRoute(['index', 'job_site' => $job_site->id]),
 			];
-		
+
 		return $array;
 	}
 
@@ -237,7 +236,7 @@ class InventoryController extends Controller
 				'status' => $m->status->status,
 			];
 		}
-		
+
 		echo Json::encode($array);
 	}
 	
@@ -302,11 +301,6 @@ class InventoryController extends Controller
 
         return $this->redirect(['index']);
     }
-	
-	public function actionCategory($param1)
-	{
-		dump($_GET);exit;
-	}
 
     /**
      * Finds the Inventory model based on its primary key value.

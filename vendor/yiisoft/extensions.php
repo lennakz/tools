@@ -84,4 +84,13 @@ return array (
       '@dosamigos/typeahead' => $vendorDir . '/2amigos/yii2-type-ahead-widget/src',
     ),
   ),
+  '2amigos/yii2-select2-widget' => 
+  array (
+    'name' => '2amigos/yii2-select2-widget',
+    'version' => '0.1.2.0',
+    'alias' => 
+    array (
+      '@dosamigos/select2' => $vendorDir . '/2amigos/yii2-select2-widget/src',
+    ),
+  ),
 );
