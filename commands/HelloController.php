@@ -8,6 +8,9 @@
 namespace app\commands;
 
 use yii\console\Controller;
+use app\models\Inventory;
+use app\models\Tool;
+use app\models\JobSite;
 
 /**
  * This command echoes the first argument that you have entered.
@@ -110,7 +113,7 @@ class HelloController extends Controller
 	public function actionGenerate_inventories()
 	{
 		$tool_ids = [];
-		foreach (\app\models\Tool::find()->all() as $tool)
+		foreach (Tool::find()->all() as $tool)
 			$tool_ids[] = $tool->id;
 		
 		for ($i = 0; $i < 200; $i++)
@@ -125,6 +128,30 @@ class HelloController extends Controller
 			$inv->created_date = date('Y-m-d H:i:s');
 			$inv->save();
 		}	
+		
+		return "Done!";
+	}
+	
+	public function actionGenerate_random_inv_numbers()
+	{
+		$i = 1;
+		foreach(Inventory::find()->all() as $m)
+		{
+			$m->inventory_number = $i;
+			$m->save();
+			$i++;			
+		}
+		
+		return "Done!";
+	}
+	
+	public function actionGenerate_jobsite_types()
+	{
+		foreach(JobSite::find()->all() as $m)
+		{
+			$m->type = 1;
+			$m->save();		
+		}
 		
 		return "Done!";
 	}

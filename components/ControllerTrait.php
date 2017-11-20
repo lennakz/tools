@@ -1,0 +1,44 @@
+<?php
+
+namespace app\components;
+
+use yii\data\ActiveDataProvider;
+
+trait ControllerTrait
+{
+	public function getInventoryDataProvider($query, $pagination = [])
+	{
+		return new ActiveDataProvider([
+            'query' => $query,
+			'pagination' => $pagination,
+			'sort' => [
+				'attributes' => [
+					'formattedNumber' => [
+						'asc' => ['inventory_number' => SORT_ASC],
+						'desc' => ['inventory_number' => SORT_DESC],
+					],
+					'tool.name' => [
+						'asc' => ['tools.name' => SORT_ASC],
+						'desc' => ['tools.name' => SORT_DESC],
+					],
+					'jobSite.street' => [
+						'asc' => ['job_sites.street' => SORT_ASC],
+						'desc' => ['job_sites.street' => SORT_DESC],
+					],
+					'category.name' => [
+						'asc' => ['tool_categories.name' => SORT_ASC],
+						'desc' => ['tool_categories.name' => SORT_DESC],
+					],
+					'status.status' => [
+						'asc' => ['inventory_status.status' => SORT_ASC],
+						'desc' => ['inventory_status.status' => SORT_DESC],
+					],
+					'updated_date',
+				],
+				'defaultOrder' => [
+					'updated_date' => SORT_DESC,
+				],
+			],
+        ]);
+	}
+}

@@ -3,13 +3,48 @@
   text-align: center; }
   .inventory-index .filter-buttons > div.dropdown {
     display: inline-block; }
+.inventory-index .search-result-inventories.not-found {
+  padding: 3px 20px; }
+.inventory-index .search-result-inventories:hover {
+  background-color: #ccc; }
+.inventory-index .tt-menu {
+  background-color: #fff;
+  width: 100%;
+  border: 1px solid #ccc; }
 
 .select2-container--bootstrap
 .select2-selection--single
 .select2-selection__placeholder {
   color: #000; }
 
-#inventory-tool_id {
+/* For Select2 widget to hide input fields on load */
+#inventory-tool_id,
+#tool-make {
   opacity: 0; }
+
+/* For buttons Create, Update, Delete on each model view */
+span.create-new a,
+span.update a,
+span.delete a {
+  font-size: 15px; }
+
+span.create-new a {
+  color: #00a70f; }
+
+span.update a {
+  color: #337ab7; }
+
+span.delete a {
+  color: #d9534f; }
+
+.jobsite-buttons {
+  text-align: center; }
+  .jobsite-buttons a {
+    margin-right: 10px;
+    margin-bottom: 10px; }
+
+#map {
+  height: 400px;
+  width: 100%; }
 
 /*# sourceMappingURL=styles.css.map */

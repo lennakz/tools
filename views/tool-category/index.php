@@ -6,24 +6,28 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Makes';
+$this->title = 'Tool Categories';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="make-index">
+<div class="tool-category-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Make', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Tool Category', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
             'name',
-            [
-				'class' => 'yii\grid\ActionColumn',
-				'header' => 'Actions',
-			],
+            'description:ntext',
+            'created_date',
+            'updated_date',
+
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

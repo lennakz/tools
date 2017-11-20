@@ -3,5 +3,13 @@
   text-align: center; }
   .inventory-index .filter-buttons > div.dropdown {
     display: inline-block; }
+.inventory-index .search-result-inventories.not-found {
+  padding: 3px 20px; }
+.inventory-index .search-result-inventories:hover {
+  background-color: #ccc; }
+.inventory-index .tt-menu {
+  background-color: #fff;
+  width: 100%;
+  border: 1px solid #ccc; }
 
 /*# sourceMappingURL=inventory.css.map */

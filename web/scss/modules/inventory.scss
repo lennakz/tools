@@ -7,4 +7,18 @@
 			display: inline-block;
 		}
 	}
+	.search-result-inventories {
+		&.not-found {
+			padding: 3px 20px; 
+		}
+		&:hover {
+			background-color: #ccc;
+		}
+	}
+	.tt-menu {
+		background-color: #fff;
+		width: 100%;
+		border: 1px solid #ccc;
+	}
 }
+

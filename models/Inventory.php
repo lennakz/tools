@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "inventories".
@@ -16,6 +17,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $status_id
  * @property string $created_date
  * @property string $updated_date
+ * @property integer $inventory_number
  */
 class Inventory extends \yii\db\ActiveRecord
 {
@@ -33,9 +35,10 @@ class Inventory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tool_id', 'job_site_id', 'status_id'], 'integer'],
-			[['tool_id', 'job_site_id', 'status_id'], 'required'],
+            [['tool_id', 'job_site_id', 'status_id', 'inventory_number'], 'integer'],
+			[['tool_id', 'job_site_id', 'status_id', 'inventory_number'], 'required'],
             [['note'], 'string'],
+			[['inventory_number'], 'unique'],
             [['created_date', 'updated_date'], 'safe'],
             [['serial_number'], 'string', 'max' => 255],
         ];
@@ -55,13 +58,14 @@ class Inventory extends \yii\db\ActiveRecord
             'status_id' => 'Status ID',
             'created_date' => 'Created Date',
             'updated_date' => 'Updated Date',
+            'inventory_number' => 'Inventory Number',
         ];
     }
 	
 	public function getTool()
 	{
 		return $this->hasOne(Tool::className(), ['id' => 'tool_id']);
-	}
+}
 	
 	public function getJobSite()
 	{
@@ -91,6 +95,26 @@ class Inventory extends \yii\db\ActiveRecord
 	public function getAllStatusesArray()
 	{
 		return ArrayHelper::map(InventoryStatus::find()->all(), 'id', 'status');
+	}
+	
+	public function beforeSave($insert)
+	{
+		if ($insert) 
+			$this->created_date = date('Y-m-d H:i:s');
+		else
+			$this->updated_date = date('Y-m-d H:i:s');
+		
+		return parent::beforeSave($insert);
+	}
+	
+	public function getFormattedNumber()
+	{
+		return str_pad($this->inventory_number, 5, '0', STR_PAD_LEFT);
+	}
+	
+	public function getUrl()
+	{
+		return Url::to(['inventory/view', 'id' => $this->id]);
 	}
 	
 }

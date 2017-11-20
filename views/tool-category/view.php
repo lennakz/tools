@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Make */
+/* @var $model app\models\ToolCategory */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Makes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Tool Categories', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="make-view">
+<div class="tool-category-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -28,7 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'id',
             'name',
+            'description:ntext',
+            'created_date',
+            'updated_date',
         ],
     ]) ?>
 

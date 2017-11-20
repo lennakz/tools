@@ -4,6 +4,8 @@
 	color: #000;
 }
 
-#inventory-tool_id {
+/* For Select2 widget to hide input fields on load */
+#inventory-tool_id,
+#tool-make {
 	opacity: 0;
 }

@@ -48,4 +48,14 @@ class Make extends \yii\db\ActiveRecord
             'updated_date' => 'Updated Date',
         ];
     }
+	
+	public function beforeSave($insert)
+	{
+		if ($insert) 
+			$this->created_date = date('Y-m-d H:i:s');
+		else
+			$this->updated_date = date('Y-m-d H:i:s');
+		
+		return parent::beforeSave($insert);
+	}
 }

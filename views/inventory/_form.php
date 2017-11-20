@@ -17,6 +17,8 @@ use dosamigos\select2\Select2Bootstrap;
 
 	<?php $form = ActiveForm::begin(); ?>
 
+		<?= $form->field($model, 'inventory_number')->textInput() ?>
+	
 		<?= $form->field($model, 'tool_id')->label('Tool')->widget(
 			Select2Bootstrap::class, 
 				[

@@ -1,7 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+
+use yii\widgets\Pjax;
+
+use yii\grid\GridView;
+use yii\grid\CheckboxColumn;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\JobSite */
@@ -9,32 +13,73 @@ use yii\widgets\DetailView;
 $this->title = $model->street;
 $this->params['breadcrumbs'][] = ['label' => 'Job Sites', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
+
 <div class="job-site-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+		<?= Html::encode($this->title) ?>
+		<span class="update">
+			<?= Html::a('Update', ['update', 'id' => $model->id]) ?>
+		</span>
+		<span class="delete">
+			<?=
+			Html::a('Delete', ['delete', 'id' => $model->id], [
+				'data' => [
+					'confirm' => 'Are you sure you want to delete this item?',
+					'method' => 'post',
+				],
+			])
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+			?>
+		</span>
+	</h1>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'street',
-            'city',
-            'province',
-            'postal_code',
-            'complete',
-        ],
-    ]) ?>
+	<div class="jobsite-short-info">
+		<h4>Details:</h4>
+		<?php if (!empty($model->name)): ?>
+			<p><strong>Name:</strong> <?= $model->name ?></p>
+		<?php endif; ?>
+		<p><strong>Type:</strong> <?= $model->typeText ?></p>
+		<p><strong>Address:</strong> <?= $model->fullAddress ?></p>
+		<p><strong>Status:</strong> <?= $model->completeText ?></p>
+		<p><strong>Total Inventories:</strong> <?= $dataProvider->totalCount ?></p>
+		<?php ?>
+	</div>
+	
+	<?php Pjax::begin([
+		'id' => 'pjax-gridview-jobsite-view',
+		'timeout' => 10000,
+	]); ?>    
+		
+		<?=	GridView::widget([
+			'dataProvider' => $dataProvider,
+			'columns' => [
+				[
+					'label' => 'Inventory #',
+					'attribute' => 'formattedNumber',
+				],
+				[
+					'label' => 'Tool',
+					'attribute' => 'tool.name',
+				],
+				[
+					'label' => 'Category',
+					'attribute' => 'category.name',
+				],
+				[
+					'label' => 'Status',
+					'attribute' => 'status.status',
+				],
+				[
+					'class' => 'yii\grid\ActionColumn',
+					'header' => 'Actions',
+				],
+				['class' => CheckboxColumn::className()],
+			],
+			'summary' => '<p class="text-center">Showing {begin}-{end} out of total {totalCount} records</p>',
+			]); ?>
+	<?php Pjax::end(); ?>
 
 </div>

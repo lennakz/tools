@@ -1,0 +1,16 @@
+/* For buttons Create, Update, Delete on each model view */
+span.create-new a,
+span.update a,
+span.delete a {
+	font-size: 15px;
+}
+
+span.create-new a {
+	color: #00a70f;
+}
+span.update a {
+	color: #337ab7;
+}
+span.delete a {
+	color: #d9534f;
+}

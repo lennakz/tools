@@ -13,13 +13,15 @@ use app\models\JobSite;
 
     <?php $form = ActiveForm::begin(); ?>
 
+	<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+	
+	<?= $form->field($model, 'type')->dropDownList(JobSite::getTypeArray(), ['prompt' => 'Select type', 'value' => 1]) ?>
+	
     <?= $form->field($model, 'street')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'province')->dropDownList(JobSite::getProvincesArray(), ['prompt' => 'Select Province', 'value' => 'BC']) ?>
-
-    <?= $form->field($model, 'postal_code')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'province')->dropDownList(JobSite::getProvincesArray(), ['prompt' => 'Select province', 'value' => 'BC']) ?>
 
     <?= $form->field($model, 'complete')->checkbox() ?>
 

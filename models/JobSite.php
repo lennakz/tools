@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Json;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "job_sites".
@@ -15,6 +17,10 @@ use Yii;
  * @property integer $complete
  * @property string $created_date
  * @property string $updated_date
+ * @property integer $type
+ * @property integer $lat
+ * @property integer $lng
+ * @property string $name
  */
 class JobSite extends \yii\db\ActiveRecord
 {
@@ -32,10 +38,10 @@ class JobSite extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['complete'], 'integer'],
-			[['street', 'city', 'province'], 'required'],
+            [['complete', 'type', 'lat', 'lng'], 'integer'],
+			[['street', 'type', 'complete', 'city', 'province'], 'required'],
             [['created_date', 'updated_date'], 'safe'],
-            [['street', 'city', 'postal_code'], 'string', 'max' => 255],
+            [['street', 'city', 'postal_code', 'name'], 'string', 'max' => 255],
             [['province'], 'string', 'max' => 2],
         ];
     }
@@ -54,6 +60,10 @@ class JobSite extends \yii\db\ActiveRecord
             'complete' => 'Complete',
             'created_date' => 'Created Date',
             'updated_date' => 'Updated Date',
+            'type' => 'Type',
+            'lat' => 'Lat',
+            'lng' => 'Lng',
+            'name' => 'Name',
         ];
     }
 	
@@ -64,6 +74,17 @@ class JobSite extends \yii\db\ActiveRecord
 		else
 			$this->updated_date = date('Y-m-d H:i:s');
 		
+		if (empty($this->name))
+			$this->name = $this->street;
+		
+		$location_info = $this->getLocationInfo();
+		
+		foreach (['lat', 'lng', 'postal_code'] as $attr)
+		{
+			if (empty($this->$attr))
+				$this->$attr = $location_info[$attr];
+		}
+				
 		return parent::beforeSave($insert);
 	}
 	
@@ -87,4 +108,94 @@ class JobSite extends \yii\db\ActiveRecord
 
 		return $provinces;
 	}
+	
+	public static function getLookupMarkersArray()
+	{
+		return [
+			1 => 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+			2 => 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+			3 => 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+		];
+	}
+
+
+	public function getLocationInfo()
+	{
+		$location_info = [
+			'lat' => '',
+			'lng' => '',
+			'postal_code' => '',
+		];
+		$address = urlencode($this->getFullAddress(false));
+
+		$url = "http://maps.googleapis.com/maps/api/geocode/json?address=$address&sensor=false";
+
+		$data = @file_get_contents($url);
+		$jsondata = Json::decode($data, true);
+
+		if ($jsondata['status'] !== 'OK')
+			return $location_info;
+
+		$location_info = [
+			'lat' => $jsondata["results"][0]["geometry"]["location"]["lat"],
+			'lng' => $jsondata["results"][0]["geometry"]["location"]["lng"],
+			'postal_code' => $jsondata["results"][0]["address_components"][7]["long_name"],
+		];
+
+		return $location_info;
+	}
+	
+	public function getCompleteText()
+	{
+		return empty($this->complete) ? 'Active' : 'Completed';
+	}
+	
+	public static function getTypeArray()
+	{
+		return [
+			1 => 'Job Site',
+			2 => 'Shop',
+			3 => 'Storage',
+		];
+	}
+	
+	public function getTypeText()
+	{
+		$type_array = self::getTypeArray();
+		
+		return $type_array[$this->type];
+	}
+	
+	public function getNameText()
+	{
+		return empty($this->name) ? $this->street : $this->name;
+	}
+	
+	public function getFullAddress($add_postal_code = true)
+	{
+		$address = [];
+		$postal_code = '';
+		
+		if (!empty($add_postal_code))
+			$postal_code = $this->postal_code;
+		
+		foreach ([$this->street, $this->city, $this->province, $postal_code] as $v)
+		{
+			if (!empty($v))
+				$address[] = $v;
+		}
+		
+		return implode(', ', $address);
+	}
+	
+	public function getTotalInventories()
+	{
+		return Inventory::find()->where(['job_site_id' => $this->id])->count();
+	}
+	
+	public function getUrl()
+	{
+		return Url::to(['job-site/view', 'id' => $this->id]);
+	}
+	
 }

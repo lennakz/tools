@@ -4,17 +4,23 @@ namespace app\controllers;
 
 use Yii;
 use app\models\JobSite;
+use app\models\Inventory;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\helpers\Url;
+
+use app\components\ControllerTrait;
 
 /**
  * JobSiteController implements the CRUD actions for JobSite model.
  */
 class JobSiteController extends Controller
 {
-
+	use ControllerTrait;
 	/**
 	 * @inheritdoc
 	 */
@@ -36,15 +42,59 @@ class JobSiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$query = JobSite::find();
+				
 		$dataProvider = new ActiveDataProvider([
-			'query' => JobSite::find(),
+			'query' => $query,
+			'sort' => [
+				'attributes' => [
+					'street',
+					'city',
+					'province',
+					'postal_code',
+					'completeText' => [
+						'asc' => ['complete' => SORT_ASC],
+						'desc' => ['complete' => SORT_DESC],
+					],
+					'typeText' => [
+						'asc' => ['type' => SORT_ASC],
+						'desc' => ['type' => SORT_DESC],
+					],
+				],
+				'defaultOrder' => [
+					'completeText' => SORT_ASC,
+				],
+			],
 		]);
-
+		
 		return $this->render('index', [
-				'dataProvider' => $dataProvider,
+			'dataProvider' => $dataProvider,
+			'googlemap_json' => $this->getGoogleMapCoordJson(),
 		]);
 	}
-
+	
+	public function getGoogleMapCoordJson()
+	{
+		$array = [];
+		$models = JobSite::find()->all();
+		$lookup_markers = JobSite::getLookupMarkersArray();
+		
+		foreach ($models as $m)
+		{
+			$array[] = [
+				'name' => $m->name,
+				'lat' => $m->lat,
+				'lng' => $m->lng,
+				'url' => Url::to(['job-site/view', 'id' => $m->id]),
+				'total_inventories' => $m->totalInventories,
+				'type' => $m->typeText,
+				'icon_url' => $lookup_markers[$m->type],
+			];
+		}
+		
+		return Json::encode($array);
+	}
+	
 	/**
 	 * Displays a single JobSite model.
 	 * @param integer $id
@@ -52,8 +102,15 @@ class JobSiteController extends Controller
 	 */
 	public function actionView($id)
 	{
+		$query = Inventory::find()->joinWith(['tool', 'jobSite', 'status', 'category'])->where(['job_site_id' => $id]);
+		$pagination = ['pageSize' => 50,];
+		
+		$dataProvider = $this->getInventoryDataProvider($query, $pagination);
+		$model = $this->findModel($id);
+		
 		return $this->render('view', [
-				'model' => $this->findModel($id),
+			'model' => $model,
+			'dataProvider' => $dataProvider,
 		]);
 	}
 
@@ -68,7 +125,7 @@ class JobSiteController extends Controller
 
 		if ($model->load(Yii::$app->request->post()) && $model->save())
 		{
-			return $this->redirect(['view', 'id' => $model->id]);
+			return $this->redirect(['index']);
 		}
 		else
 		{
@@ -90,12 +147,12 @@ class JobSiteController extends Controller
 
 		if ($model->load(Yii::$app->request->post()) && $model->save())
 		{
-			return $this->redirect(['view', 'id' => $model->id]);
+			return $this->redirect(['index']);
 		}
 		else
 		{
 			return $this->render('update', [
-					'model' => $model,
+				'model' => $model,
 			]);
 		}
 	}
@@ -111,6 +168,17 @@ class JobSiteController extends Controller
 		$this->findModel($id)->delete();
 
 		return $this->redirect(['index']);
+	}
+	
+	public function renderJobSiteButtons()
+	{
+		$buttons = '<div class="jobsite-buttons">';
+		foreach (JobSite::find()->all() as $m)
+			$buttons .= Html::a($m->nameText, ['job-site/view', 'id' => $m->id], ['class' => 'btn btn-default']);
+		
+		$buttons .= '</div>';
+		
+		return $buttons;
 	}
 
 	/**
@@ -131,5 +199,6 @@ class JobSiteController extends Controller
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
 	}
+	
 
 }

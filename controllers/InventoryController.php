@@ -5,9 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\helpers\Url;
 use yii\helpers\Json;
-
-use yii\data\ActiveDataProvider;
-use yii\data\Sort;
+use yii\helpers\Html;
 
 use yii\web\Controller;
 use yii\web\Response;
@@ -24,12 +22,15 @@ use app\models\ToolCategory;
 use app\models\InventoryStatus;
 use app\models\JobSite;
 
+use app\components\ControllerTrait;
+
 /**
  * InventoryController implements the CRUD actions for Inventory model.
  */
 class InventoryController extends Controller
 {
-    /**
+	use ControllerTrait;
+	/**
      * @inheritdoc
      */
     public function behaviors()
@@ -142,6 +143,7 @@ class InventoryController extends Controller
     public function actionIndex()
     {
 		$filter_header = '';
+		$filter_header_link = '';
 		$filter_buttons_array = $this->getFilterButtonsArray();
 		$param = app()->request->get();
 		
@@ -151,50 +153,28 @@ class InventoryController extends Controller
 		if (!empty($param['cat']))
 		{
 			$query = $query->where(['tools.category_id' => $param['cat']]);
-			$filter_header = 'Categories: ' . $filter_buttons_array['Categories'][$param['cat']]['name'];
+			$filter_header = 'Categories';
+			$filter_header_link = $filter_buttons_array['Categories'][$param['cat']]['link'];
 		}
 		elseif (!empty($param['status']))
 		{
 			$query = $query->where(['status_id' => $param['status']]);
-			$filter_header = 'Statuses: ' . $filter_buttons_array['Status'][$param['status']]['name'];
+			$filter_header = 'Statuses';
+			$filter_header_link = $filter_buttons_array['Status'][$param['status']]['link'];
 		}
 		elseif (!empty($param['job_site']))
 		{
 			$query = $query->where(['job_site_id' => $param['job_site']]);
-			$filter_header = 'Job Sites: ' . $filter_buttons_array['Job Sites'][$param['job_site']]['name'];			
+			$filter_header = 'Job Sites';
+			$filter_header_link = $filter_buttons_array['Job Sites'][$param['job_site']]['link'];			
 		}
 
-		$dataProvider = new ActiveDataProvider([
-            'query' => $query,
-			'sort' => [
-				'attributes' => [
-					'id',
-					'tool.name' => [
-						'asc' => ['tools.name' => SORT_ASC],
-						'desc' => ['tools.name' => SORT_DESC],
-					],
-					'jobSite.street' => [
-						'asc' => ['job_sites.street' => SORT_ASC],
-						'desc' => ['job_sites.street' => SORT_DESC],
-					],
-					'category.name' => [
-						'asc' => ['tool_categories.name' => SORT_ASC],
-						'desc' => ['tool_categories.name' => SORT_DESC],
-					],
-					'status.status' => [
-						'asc' => ['inventory_status.status' => SORT_ASC],
-						'desc' => ['inventory_status.status' => SORT_DESC],
-					],
-				],
-				'defaultOrder' => [
-					'id' => SORT_ASC,
-				],
-			],
-        ]);
+		$dataProvider = $this->getInventoryDataProvider($query);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
 			'filter_header' => $filter_header,
+			'filter_header_link' => $filter_header_link,
 			'filter_buttons_array' => $filter_buttons_array,
 		]);
     }
@@ -205,18 +185,21 @@ class InventoryController extends Controller
 
 		foreach (ToolCategory::find()->all() as $cat)
 			$array['Categories'][$cat->id] = [
+				'link' => Html::a($cat->name, ['category/view', 'id' => $cat->id]),
 				'name' => $cat->name,
 				'url' => Url::toRoute(['index', 'cat' => $cat->id]),
 			];
 
 		foreach (InventoryStatus::find()->all() as $status)
 			$array['Status'][$status->id] = [
+				'link' => $status->status,
 				'name' => $status->status,
 				'url' => Url::toRoute(['index', 'status' => $status->id]),
 			];
 
 		foreach (JobSite::find()->all() as $job_site)
 			$array['Job Sites'][$job_site->id] = [
+				'link' => Html::a($job_site->nameText, ['job-site/view', 'id' => $job_site->id]),
 				'name' => $job_site->street,
 				'url' => Url::toRoute(['index', 'job_site' => $job_site->id]),
 			];
@@ -231,7 +214,9 @@ class InventoryController extends Controller
 		{
 			$array[] = [
 				'id' => $m->id,
+				'url' => $m->url,
 				'name' => $m->tool->name,
+				'inventory_number' => $m->formattedNumber,
 				'job_site' => $m->jobSite->street,
 				'status' => $m->status->status,
 			];

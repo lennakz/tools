@@ -17,11 +17,7 @@ use yii\web\JsExpression;
 $this->title = 'Inventories';
 
 $template = 
-	'<div>'
-	. '<p class="">{{name}}</p>' .
-		'<p class="repo-name">{{job_site}}</p>' .
-		'<p class="repo-description">{{status}}</p>'
-	. '</div>';
+	'<div class="search-result-inventories"><a href="{{url}}">{{name}} (#{{inventory_number}}) - {{job_site}} - {{status}}</a></div>';
 
 $engine = new Bloodhound([
 	'name' => 'inventoryEngine',
@@ -38,7 +34,12 @@ $engine = new Bloodhound([
 ?>
 <div class="inventory-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+		<?= Html::encode($this->title) ?>
+		<span class="create-new"><?= Html::a('Create new', ['create']) ?></span>
+	</h1>
+		
+	<br>
 	
 	<div>
 		<?= TypeAhead::widget([
@@ -55,7 +56,7 @@ $engine = new Bloodhound([
 					'source' => $engine->getAdapterScript(),
 					'displayKey' => 'name',
 					'templates' => [
-						'notFound' => '<div>Unable to find repositories for selected query.</div',
+						'notFound' => '<div class="search-result-inventories not-found">Unable to find this inventory</div>',
 						'suggestion' => new JsExpression("Handlebars.compile('{$template}')"),
 					],
 				],
@@ -63,12 +64,10 @@ $engine = new Bloodhound([
 		]); 
 		?>
 	</div>
-	<br><br><br>
-	
-	<?= Html::a('Create new', ['create'], ['class' => 'btn btn-default']); ?>
+	<br><br>
 	
 	<div class="filter-buttons">
-		<?= Html::a('Show All', ['index'], ['class' => 'btn btn-default']); ?>
+		<?= Html::a('Show All', ['index'], ['class' => 'btn btn-default refresh-table']); ?>
 		<?php foreach ($filter_buttons_array as $cat_name => $cats): ?>
 			<div class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><?= $cat_name ?><span class="caret"></span></button>
@@ -86,11 +85,14 @@ $engine = new Bloodhound([
 		'linkSelector' => '#pjax-gridview a, .refresh-table',
 		'timeout' => 10000,
 	]); ?>    
-		<h3 class="filter-header text-center">Showing <?= $filter_header ?></h3>
+		<h3 class="filter-header text-center">Showing <?= $filter_header ?>: <?= $filter_header_link ?></h3>
 		<?=	GridView::widget([
 				'dataProvider' => $dataProvider,
 				'columns' => [
-					'id',
+					[
+						'label' => 'Inventory #',
+						'attribute' => 'formattedNumber',
+					],
 					[
 						'label' => 'Tool',
 						'attribute' => 'tool.name',

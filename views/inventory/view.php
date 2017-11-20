@@ -12,23 +12,28 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="inventory-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <h1>
+		<?= Html::encode($this->title) ?> (#<?= Html::encode($model->formattedNumber) ?>)
+		<span class="update">
+			<?= Html::a('Update', ['update', 'id' => $model->id]) ?>
+		</span>
+		<span class="delete">
+			<?= Html::a('Delete', ['delete', 'id' => $model->id], [
+				'data' => [
+					'confirm' => 'Are you sure you want to delete this item?',
+					'method' => 'post',
+				],
+			]) ?>
+		</span>
+	</h1>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            [
+				'label' => 'Inventory Number',
+				'attribute' => 'formattedNumber',
+			],
             [
 				'label' => 'Tool',
 				'attribute' => 'tool.name',
@@ -45,5 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'note:ntext',
         ],
     ]) ?>
+	
+	<div>History come here</div>
 
 </div>

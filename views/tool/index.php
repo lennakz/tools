@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -11,30 +12,35 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tool-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+		<?= Html::encode($this->title) ?>
+		<span class="create-new"><?= Html::a('Create new', ['create']) ?></span>
+	</h1>
 
-    <p>
-        <?= Html::a('Create Tool', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-<?php Pjax::begin(); ?>    
-	<?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            'id',
-            'name',
-			[
-				'label' => 'Make',
-				'attribute' => 'make.name',
+    <div>
+
+	</div>
+	
+	
+	<?php Pjax::begin(); ?>    
+		<?= GridView::widget([
+			'dataProvider' => $dataProvider,
+			'columns' => [
+				'name',
+				[
+					'label' => 'Make',
+					'attribute' => 'make.name',
+				],
+				[
+					'label' => 'Category',
+					'attribute' => 'category.name',
+				],
+				'model',
+				[
+					'class' => 'yii\grid\ActionColumn',
+					'header' => 'Actions',
+				],
 			],
-			[
-				'label' => 'Category',
-				'attribute' => 'category.name',
-			],
-            'model',
-			[
-				'class' => 'yii\grid\ActionColumn',
-				'header' => 'Actions',
-			],
-        ],
-    ]); ?>
-<?php Pjax::end(); ?></div>
+		]); ?>
+	<?php Pjax::end(); ?>
+</div>
