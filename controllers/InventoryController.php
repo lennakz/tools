@@ -165,7 +165,7 @@ class InventoryController extends Controller
 		elseif (!empty($param['job_site']))
 		{
 			$query = $query->where(['job_site_id' => $param['job_site']]);
-			$filter_header = 'Job Sites';
+			$filter_header = 'Places';
 			$filter_header_link = $filter_buttons_array['Job Sites'][$param['job_site']]['link'];			
 		}
 

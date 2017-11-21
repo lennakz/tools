@@ -28,6 +28,7 @@ class ComposerStaticInit4378d99bb60cb9e831e03693aff4943d
             'yii\\composer\\' => 13,
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
+            'yii2mod\\editable\\' => 17,
         ),
         'r' => 
         array (
@@ -124,6 +125,10 @@ class ComposerStaticInit4378d99bb60cb9e831e03693aff4943d
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'yii2mod\\editable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yii2mod/yii2-editable',
         ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (

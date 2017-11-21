@@ -74,6 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 				[
 					'class' => 'yii\grid\ActionColumn',
+					'controller' => 'inventory',
 					'header' => 'Actions',
 				],
 				['class' => CheckboxColumn::className()],

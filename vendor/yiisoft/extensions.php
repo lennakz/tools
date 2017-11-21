@@ -57,15 +57,6 @@ return array (
       '@rmrevin/yii/fontawesome' => $vendorDir . '/rmrevin/yii2-fontawesome',
     ),
   ),
-  'yiister/yii2-gentelella' => 
-  array (
-    'name' => 'yiister/yii2-gentelella',
-    'version' => '1.3.0.0',
-    'alias' => 
-    array (
-      '@yiister/gentelella' => $vendorDir . '/yiister/yii2-gentelella',
-    ),
-  ),
   'yiisoft/yii2-smarty' => 
   array (
     'name' => 'yiisoft/yii2-smarty',
@@ -91,6 +82,24 @@ return array (
     'alias' => 
     array (
       '@dosamigos/select2' => $vendorDir . '/2amigos/yii2-select2-widget/src',
+    ),
+  ),
+  'yiister/yii2-gentelella' => 
+  array (
+    'name' => 'yiister/yii2-gentelella',
+    'version' => '1.3.1.0',
+    'alias' => 
+    array (
+      '@yiister/gentelella' => $vendorDir . '/yiister/yii2-gentelella',
+    ),
+  ),
+  'yii2mod/yii2-editable' => 
+  array (
+    'name' => 'yii2mod/yii2-editable',
+    'version' => '1.4.0.0',
+    'alias' => 
+    array (
+      '@yii2mod/editable' => $vendorDir . '/yii2mod/yii2-editable',
     ),
   ),
 );
