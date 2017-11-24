@@ -3,8 +3,8 @@
 namespace app\models;
 
 use Yii;
-use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "job_sites".
@@ -17,9 +17,9 @@ use yii\helpers\Url;
  * @property integer $complete
  * @property string $created_date
  * @property string $updated_date
- * @property integer $type
- * @property integer $lat
- * @property integer $lng
+ * @property integer $type_id
+ * @property double $lat
+ * @property double $lng
  * @property string $name
  */
 class JobSite extends \yii\db\ActiveRecord
@@ -38,9 +38,9 @@ class JobSite extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['complete', 'type', 'lat', 'lng'], 'integer'],
-			[['street', 'type', 'complete', 'city', 'province'], 'required'],
+            [['complete', 'type_id'], 'integer'],
             [['created_date', 'updated_date'], 'safe'],
+            [['lat', 'lng'], 'number'],
             [['street', 'city', 'postal_code', 'name'], 'string', 'max' => 255],
             [['province'], 'string', 'max' => 2],
         ];
@@ -60,7 +60,7 @@ class JobSite extends \yii\db\ActiveRecord
             'complete' => 'Complete',
             'created_date' => 'Created Date',
             'updated_date' => 'Updated Date',
-            'type' => 'Type',
+            'type_id' => 'Type ID',
             'lat' => 'Lat',
             'lng' => 'Lng',
             'name' => 'Name',
@@ -163,7 +163,7 @@ class JobSite extends \yii\db\ActiveRecord
 	{
 		$type_array = self::getTypeArray();
 		
-		return $type_array[$this->type];
+		return $type_array[$this->type_id];
 	}
 	
 	public function getNameText()
@@ -197,5 +197,4 @@ class JobSite extends \yii\db\ActiveRecord
 	{
 		return Url::to(['job-site/view', 'id' => $this->id]);
 	}
-	
 }

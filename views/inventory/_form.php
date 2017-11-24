@@ -42,7 +42,7 @@ use dosamigos\select2\Select2Bootstrap;
 			<?= Html::a('Add New Job Site', Url::to(['job-site/create'])) ?>
 		</div>	
 
-		<?= $form->field($model, 'status_id')->dropDownList($model->getAllStatusesArray(), ['prompt' => 'Select Status', 'value' => 1])->label('Status') ?>
+		<?= $form->field($model, 'status_id')->dropDownList($model->getStatusArray(), ['prompt' => 'Select Status', 'value' => 1])->label('Status') ?>
 	
 		<?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
 

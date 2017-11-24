@@ -57,8 +57,8 @@ class JobSiteController extends Controller
 						'desc' => ['complete' => SORT_DESC],
 					],
 					'typeText' => [
-						'asc' => ['type' => SORT_ASC],
-						'desc' => ['type' => SORT_DESC],
+						'asc' => ['type_id' => SORT_ASC],
+						'desc' => ['type_id' => SORT_DESC],
 					],
 				],
 				'defaultOrder' => [
@@ -88,7 +88,7 @@ class JobSiteController extends Controller
 				'url' => Url::to(['job-site/view', 'id' => $m->id]),
 				'total_inventories' => $m->totalInventories,
 				'type' => $m->typeText,
-				'icon_url' => $lookup_markers[$m->type],
+				'icon_url' => $lookup_markers[$m->type_id],
 			];
 		}
 		
@@ -102,7 +102,7 @@ class JobSiteController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$query = Inventory::find()->joinWith(['tool', 'jobSite', 'status', 'category'])->where(['job_site_id' => $id]);
+		$query = Inventory::find()->joinWith(['tool', 'jobSite', 'category'])->where(['job_site_id' => $id]);
 		$pagination = ['pageSize' => 50,];
 		
 		$dataProvider = $this->getInventoryDataProvider($query, $pagination);

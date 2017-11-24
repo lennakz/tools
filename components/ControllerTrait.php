@@ -29,9 +29,9 @@ trait ControllerTrait
 						'asc' => ['tool_categories.name' => SORT_ASC],
 						'desc' => ['tool_categories.name' => SORT_DESC],
 					],
-					'status.status' => [
-						'asc' => ['inventory_status.status' => SORT_ASC],
-						'desc' => ['inventory_status.status' => SORT_DESC],
+					'statusText' => [
+						'asc' => ['status_id' => SORT_ASC],
+						'desc' => ['status_id' => SORT_DESC],
 					],
 					'updated_date',
 				],

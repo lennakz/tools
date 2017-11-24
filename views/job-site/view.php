@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				],
 				[
 					'label' => 'Status',
-					'attribute' => 'status.status',
+					'attribute' => 'statusText',
 				],
 				[
 					'class' => 'yii\grid\ActionColumn',

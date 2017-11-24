@@ -149,7 +149,7 @@ class HelloController extends Controller
 	{
 		foreach(JobSite::find()->all() as $m)
 		{
-			$m->type = 1;
+			$m->type_id = 1;
 			$m->save();		
 		}
 		

@@ -43,7 +43,30 @@ class Inventory extends \yii\db\ActiveRecord
             [['serial_number'], 'string', 'max' => 255],
         ];
     }
-
+	
+	public function beforeSave($insert)
+	{
+		$log = new InventoryLog;
+		
+		if ($insert)
+		{
+			$this->created_date = date('Y-m-d H:i:s');			
+		}
+		else
+		{
+			$this->updated_date = date('Y-m-d H:i:s');
+			//$log->previous_id = $this->getOldAttribute('id');			
+		}
+				
+		$log->attributes = $this->attributes;		
+		$log->inventory_id = $this->id;
+		$log->change_date = date('Y-m-d H:i:s');
+				
+		$log->save();
+		
+		return parent::beforeSave($insert);
+	}
+	
     /**
      * @inheritdoc
      */
@@ -65,16 +88,11 @@ class Inventory extends \yii\db\ActiveRecord
 	public function getTool()
 	{
 		return $this->hasOne(Tool::className(), ['id' => 'tool_id']);
-}
+	}
 	
 	public function getJobSite()
 	{
 		return $this->hasOne(JobSite::className(), ['id' => 'job_site_id']);
-	}
-	
-	public function getStatus()
-	{
-		return $this->hasOne(InventoryStatus::className(), ['id' => 'status_id']);
 	}
 	
 	public function getCategory()
@@ -92,19 +110,22 @@ class Inventory extends \yii\db\ActiveRecord
 		return ArrayHelper::map(JobSite::find()->all(), 'id', 'street');
 	}
 	
-	public function getAllStatusesArray()
+	public static function getStatusArray()
 	{
-		return ArrayHelper::map(InventoryStatus::find()->all(), 'id', 'status');
+		return [
+			1 => 'Working',
+			2 => 'Need Repair',
+			3 => 'In Repair',
+			4 => 'Retired',
+			5 => 'Missing',
+		];
 	}
 	
-	public function beforeSave($insert)
+	public function getStatusText()
 	{
-		if ($insert) 
-			$this->created_date = date('Y-m-d H:i:s');
-		else
-			$this->updated_date = date('Y-m-d H:i:s');
+		$status_array = self::getStatusArray();
 		
-		return parent::beforeSave($insert);
+		return $status_array[$this->status_id];
 	}
 	
 	public function getFormattedNumber()

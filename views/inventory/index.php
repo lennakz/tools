@@ -87,37 +87,36 @@ $engine = new Bloodhound([
 	]); ?>    
 		<h3 class="filter-header text-center">Showing <?= $filter_header ?>: <?= $filter_header_link ?></h3>
 		<?=	GridView::widget([
-				'dataProvider' => $dataProvider,
-				'columns' => [
-					[
-						'label' => 'Inventory #',
-						'attribute' => 'formattedNumber',
-					],
-					[
-						'label' => 'Tool',
-						'attribute' => 'tool.name',
-					],
-					[
-						'label' => 'Category',
-						'attribute' => 'category.name',
-					],
-					[
-						'label' => 'Job Site',
-						'attribute' => 'jobSite.street',
-					],
-					[
-						'label' => 'Status',
-						'attribute' => 'status.status',
-					],
-					[
-						'class' => 'yii\grid\ActionColumn',
-						'header' => 'Actions',
-					],
-					['class' => CheckboxColumn::className()],
+			'dataProvider' => $dataProvider,
+			'columns' => [
+				[
+					'label' => 'Inventory #',
+					'attribute' => 'formattedNumber',
 				],
-				'summary' => '<p class="text-center">Showing {begin}-{end} out of total {totalCount} records</p>',
-			]);
-		?>
+				[
+					'label' => 'Tool',
+					'attribute' => 'tool.name',
+				],
+				[
+					'label' => 'Category',
+					'attribute' => 'category.name',
+				],
+				[
+					'label' => 'Job Site',
+					'attribute' => 'jobSite.name',
+				],
+				[
+					'label' => 'Status',
+					'attribute' => 'statusText',
+				],
+				[
+					'class' => 'yii\grid\ActionColumn',
+					'header' => 'Actions',
+				],
+				['class' => CheckboxColumn::className()],
+			],
+			'summary' => '<p class="text-center">Showing {begin}-{end} out of total {totalCount} records</p>',
+		]); ?>
 	<?php Pjax::end(); ?>
 		
 </div>

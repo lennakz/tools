@@ -21,7 +21,9 @@ use app\models\Tool;
 use app\models\ToolCategory;
 use app\models\InventoryStatus;
 use app\models\JobSite;
+use app\models\InventoryLog;
 
+use yii\data\ActiveDataProvider;
 use app\components\ControllerTrait;
 
 /**
@@ -147,7 +149,7 @@ class InventoryController extends Controller
 		$filter_buttons_array = $this->getFilterButtonsArray();
 		$param = app()->request->get();
 		
-		$query = Inventory::find()->joinWith(['tool', 'jobSite', 'status', 'category']);
+		$query = Inventory::find()->joinWith(['tool', 'jobSite', 'category']);
 		$filter_header = 'All';
 
 		if (!empty($param['cat']))
@@ -185,22 +187,22 @@ class InventoryController extends Controller
 
 		foreach (ToolCategory::find()->all() as $cat)
 			$array['Categories'][$cat->id] = [
-				'link' => Html::a($cat->name, ['category/view', 'id' => $cat->id]),
+				'link' => $cat->name,
 				'name' => $cat->name,
 				'url' => Url::toRoute(['index', 'cat' => $cat->id]),
 			];
 
-		foreach (InventoryStatus::find()->all() as $status)
-			$array['Status'][$status->id] = [
-				'link' => $status->status,
-				'name' => $status->status,
-				'url' => Url::toRoute(['index', 'status' => $status->id]),
+		foreach (Inventory::getStatusArray() as $id => $status)
+			$array['Status'][$id] = [
+				'link' => $status,
+				'name' => $status,
+				'url' => Url::toRoute(['index', 'status' => $id]),
 			];
 
-		foreach (JobSite::find()->all() as $job_site)
+		foreach (JobSite::find()->orderBy('type_id')->all() as $job_site)
 			$array['Job Sites'][$job_site->id] = [
 				'link' => Html::a($job_site->nameText, ['job-site/view', 'id' => $job_site->id]),
-				'name' => $job_site->street,
+				'name' => $job_site->name,
 				'url' => Url::toRoute(['index', 'job_site' => $job_site->id]),
 			];
 
@@ -210,7 +212,7 @@ class InventoryController extends Controller
 	public function actionInventories_json()
 	{
 		$array = [];
-		foreach (Inventory::find()->with(['jobSite', 'tool', 'status'])->all() as $m)
+		foreach (Inventory::find()->with(['jobSite', 'tool'])->all() as $m)
 		{
 			$array[] = [
 				'id' => $m->id,
@@ -218,7 +220,7 @@ class InventoryController extends Controller
 				'name' => $m->tool->name,
 				'inventory_number' => $m->formattedNumber,
 				'job_site' => $m->jobSite->street,
-				'status' => $m->status->status,
+				'status' => $m->statusText,
 			];
 		}
 
@@ -232,8 +234,24 @@ class InventoryController extends Controller
      */
     public function actionView($id)
     {
+		$query = InventoryLog::find()->where(['inventory_id' => $id]);
+		
+		$logsDataProvider = new ActiveDataProvider([
+            'query' => $query,
+			'sort' => [
+				'attributes' => [
+					'change_date',
+				],
+				'defaultOrder' => [
+					'change_date' => SORT_DESC,
+				],
+			],
+        ]);
+		
+		
         return $this->render('view', [
             'model' => $this->findModel($id),
+			'logs_data_provider' => $logsDataProvider,
         ]);
     }
 
