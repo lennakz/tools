@@ -71,8 +71,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 					'label' => 'Inventory #',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged('inventory_number'))
-							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->formattedNumber, $model->formattedNumber);
+						$prev_log = $model->getChangedModel('inventory_number');
+						if (!empty($prev_log))
+							return $model->getChangedTextHtml($prev_log->formattedNumber, $model->formattedNumber);
 						else
 							return $model->formattedNumber;
 					},
@@ -81,28 +82,31 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 					'label' => 'Tool',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged('tool_id'))
-							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->tool->name, $model->tool->name);
+						$prev_log = $model->getChangedModel('tool_id');
+						if (!empty($prev_log))
+							return $model->getChangedTextHtml($prev_log->tool->name, $model->tool->name);
 						else
-							return $model->tool->name;							
+							return $model->tool->name;		
 					},
 					'format' => 'raw',
 				],
 				[
 					'label' => 'Job Site',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged('job_site_id'))
-							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->jobSite->name, $model->jobSite->name);
+						$prev_log = $model->getChangedModel('job_site_id');
+						if (!empty($prev_log))
+							return $model->getChangedTextHtml($prev_log->jobSite->name, $model->jobSite->name);
 						else
-							return $model->jobSite->name;							
+							return $model->jobSite->name;
 					},
 					'format' => 'raw',
 				],
 				[
 					'label' => 'Status',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged('status_id'))
-							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->statusText, $model->statusText);
+						$prev_log = $model->getChangedModel('status_id');
+						if (!empty($prev_log))
+							return $model->getChangedTextHtml($prev_log->statusText, $model->statusText);
 						else
 							return $model->statusText;
 					},
@@ -111,18 +115,20 @@ $this->params['breadcrumbs'][] = $this->title;
 						[
 					'label' => 'Note',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged('note'))
-							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->note, $model->note);
+						$prev_log = $model->getChangedModel('note');
+						if (!empty($prev_log))
+							return $model->getChangedTextHtml($prev_log->note, $model->note);
 						else
-							return $model->note;	
+							return $model->note;
 					},
 					'format' => 'raw',
 				],
 				[
 					'label' => 'S/N',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged('serial_number'))
-							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->serial_number, $model->serial_number);
+						$prev_log = $model->getChangedModel('serial_number');
+						if (!empty($prev_log))
+							return $model->getChangedTextHtml($prev_log->serial_number, $model->serial_number);
 						else
 							return $model->serial_number;
 					},

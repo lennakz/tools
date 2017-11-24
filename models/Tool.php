@@ -55,6 +55,16 @@ class Tool extends \yii\db\ActiveRecord
         ];
     }
 	
+	public function beforeSave($insert)
+	{
+		if ($insert) 
+			$this->created_date = date('Y-m-d H:i:s');
+		
+		$this->updated_date = date('Y-m-d H:i:s');
+		
+		return parent::beforeSave($insert);
+	}
+	
 	public function getMake()
 	{
 		return $this->hasOne(Make::className(), ['id' => 'make_id']);

@@ -53,8 +53,8 @@ class Make extends \yii\db\ActiveRecord
 	{
 		if ($insert) 
 			$this->created_date = date('Y-m-d H:i:s');
-		else
-			$this->updated_date = date('Y-m-d H:i:s');
+		
+		$this->updated_date = date('Y-m-d H:i:s');
 		
 		return parent::beforeSave($insert);
 	}

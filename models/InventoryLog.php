@@ -65,15 +65,14 @@ class InventoryLog extends \yii\db\ActiveRecord
         ];
     }
 	
-	public function afterSave($insert, $changedAttributes)
+	public function beforeSave($insert)
 	{
-		if (empty($this->previous_id))
-		{
-			$this->previous_id = $this->id - 1;
-			$this->save();
-		}
+		if ($insert) 
+			$this->created_date = date('Y-m-d H:i:s');
 		
-		parent::afterSave($insert, $changedAttributes);
+		$this->updated_date = date('Y-m-d H:i:s');
+		
+		return parent::beforeSave($insert);
 	}
 	
 	public function getInventory()
@@ -81,17 +80,25 @@ class InventoryLog extends \yii\db\ActiveRecord
 		return $this->hasOne(Inventory::className(), ['id' => 'inventory_id']);
 	}
 	
-	public function isChanged($attr)
+	public function isChanged($prev_log, $attr)
 	{
-		if ($this->previous_id === 0)
-			false;
-		
-		$prev_model = self::findOne($this->previous_id);
-		
-		return $prev_model->$attr !== $this->$attr;
+		return $this->$attr !== $prev_log->$attr and !empty($prev_log->$attr);
 	}
 	
-	public function getChangedText($old, $new)
+	public function getChangedModel($attr)
+	{
+		if (empty($this->previous_id))
+			return '';
+		
+		$prev_log = self::findOne($this->previous_id);
+		
+		if ($this->isChanged($prev_log, $attr))
+			return $prev_log;
+		else
+			return '';
+	}
+	
+	public function getChangedTextHtml($old, $new)
 	{
 		$old_html = Html::tag('span', $old, ['class' => 'text-danger']);
 		$new_html = Html::tag('span', $new, ['class' => 'text-success']);

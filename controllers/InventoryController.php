@@ -262,7 +262,9 @@ class InventoryController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Inventory();
+        $latest_model = Inventory::find()->max('inventory_number');
+		$model = new Inventory();
+		$model->inventory_number = ++$latest_model;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

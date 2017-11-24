@@ -46,25 +46,35 @@ class Inventory extends \yii\db\ActiveRecord
 	
 	public function beforeSave($insert)
 	{
+		if ($insert)
+			$this->created_date = date('Y-m-d H:i:s');
+		
+		$this->updated_date = date('Y-m-d H:i:s');
+		
+		return parent::beforeSave($insert);
+	}
+	
+	public function afterSave($insert, $changedAttributes)
+	{
 		$log = new InventoryLog;
 		
 		if ($insert)
 		{
-			$this->created_date = date('Y-m-d H:i:s');			
+			$log->previous_id = null;
 		}
 		else
 		{
-			$this->updated_date = date('Y-m-d H:i:s');
-			//$log->previous_id = $this->getOldAttribute('id');			
+			$latest_log = InventoryLog::find()->where(['inventory_id' => $this->id])->orderBy('change_date DESC')->one();
+			$log->previous_id = $latest_log->id;
 		}
-				
+		
 		$log->attributes = $this->attributes;	
 		$log->inventory_id = $this->id;
 		$log->change_date = date('Y-m-d H:i:s');
 				
 		$log->save();
 		
-		return parent::beforeSave($insert);
+		parent::afterSave($insert, $changedAttributes);
 	}
 	
     /**
@@ -107,7 +117,7 @@ class Inventory extends \yii\db\ActiveRecord
 	
 	public function getAllJobSitesArray()
 	{
-		return ArrayHelper::map(JobSite::find()->all(), 'id', 'street');
+		return ArrayHelper::map(JobSite::find()->orderBy('type_id')->all(), 'id', 'name');
 	}
 	
 	public static function getStatusArray()
