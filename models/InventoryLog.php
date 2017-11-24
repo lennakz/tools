@@ -65,19 +65,28 @@ class InventoryLog extends \yii\db\ActiveRecord
         ];
     }
 	
+	public function afterSave($insert, $changedAttributes)
+	{
+		if (empty($this->previous_id))
+		{
+			$this->previous_id = $this->id - 1;
+			$this->save();
+		}
+		
+		parent::afterSave($insert, $changedAttributes);
+	}
+	
 	public function getInventory()
 	{
 		return $this->hasOne(Inventory::className(), ['id' => 'inventory_id']);
 	}
 	
-	public function getPreviousModel($key)
+	public function isChanged($attr)
 	{
-		return $key === 1 ? $this : self::find()->where(['id' => --$key, 'inventory_id' => $this->inventory->id])->one();
-	}
-	
-	public function isChanged($key, $attr)
-	{
-		$prev_model = $this->getPreviousModel($key);
+		if ($this->previous_id === 0)
+			false;
+		
+		$prev_model = self::findOne($this->previous_id);
 		
 		return $prev_model->$attr !== $this->$attr;
 	}

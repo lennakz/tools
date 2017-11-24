@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 use yii\grid\GridView;
-
+use app\models\InventoryLog;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Inventory */
@@ -71,8 +71,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 					'label' => 'Inventory #',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged($key, 'inventory_number'))
-							return $model->getChangedText($model->getPreviousModel($key)->formattedNumber, $model->formattedNumber);
+						if ($model->isChanged('inventory_number'))
+							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->formattedNumber, $model->formattedNumber);
 						else
 							return $model->formattedNumber;
 					},
@@ -81,8 +81,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 					'label' => 'Tool',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged($key, 'tool_id'))
-							return $model->getChangedText($model->getPreviousModel($key)->tool->name, $model->tool->name);
+						if ($model->isChanged('tool_id'))
+							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->tool->name, $model->tool->name);
 						else
 							return $model->tool->name;							
 					},
@@ -91,8 +91,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 					'label' => 'Job Site',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged($key, 'job_site_id'))
-							return $model->getChangedText($model->getPreviousModel($key)->jobSite->name, $model->jobSite->name);
+						if ($model->isChanged('job_site_id'))
+							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->jobSite->name, $model->jobSite->name);
 						else
 							return $model->jobSite->name;							
 					},
@@ -101,8 +101,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 					'label' => 'Status',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged($key, 'status_id'))
-							return $model->getChangedText($model->getPreviousModel($key)->statusText, $model->statusText);
+						if ($model->isChanged('status_id'))
+							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->statusText, $model->statusText);
 						else
 							return $model->statusText;
 					},
@@ -111,8 +111,8 @@ $this->params['breadcrumbs'][] = $this->title;
 						[
 					'label' => 'Note',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged($key, 'note'))
-							return $model->getChangedText($model->getPreviousModel($key)->note, $model->note);
+						if ($model->isChanged('note'))
+							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->note, $model->note);
 						else
 							return $model->note;	
 					},
@@ -121,8 +121,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 					'label' => 'S/N',
 					'value' => function($model, $key, $index, $column) {
-						if ($model->isChanged($key, 'serial_number'))
-							return $model->getChangedText($model->getPreviousModel($key)->serial_number, $model->serial_number);
+						if ($model->isChanged('serial_number'))
+							return $model->getChangedText(InventoryLog::findOne($model->previous_id)->serial_number, $model->serial_number);
 						else
 							return $model->serial_number;
 					},

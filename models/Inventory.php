@@ -58,7 +58,7 @@ class Inventory extends \yii\db\ActiveRecord
 			//$log->previous_id = $this->getOldAttribute('id');			
 		}
 				
-		$log->attributes = $this->attributes;		
+		$log->attributes = $this->attributes;	
 		$log->inventory_id = $this->id;
 		$log->change_date = date('Y-m-d H:i:s');
 				
