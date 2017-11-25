@@ -24,14 +24,13 @@ AppAsset::register($this);
 	</head>
 	<body>
 		<?php $this->beginBody() ?>
-
 		<div class="wrap">
-			<?php
-			NavBar::begin([
+			<?php NavBar::begin([
 				'brandLabel' => 'My Tools',
 				'brandUrl' => Yii::$app->homeUrl,
 				'options' => [
 					'class' => 'navbar-inverse navbar-fixed-top',
+					'id' => 'navigation',
 				],
 			]);
 			echo Nav::widget([
@@ -59,14 +58,11 @@ AppAsset::register($this);
 			NavBar::end();
 
 			?>
-
+			
 			<div class="container">
-				<?=
-				Breadcrumbs::widget([
+				<?=	Breadcrumbs::widget([
 					'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-				])
-
-				?>
+				]); ?>
 
 				<?= $content ?>
 
@@ -84,7 +80,13 @@ AppAsset::register($this);
 		</footer>
 		
 		<script>
+			$(window).on('load', function() {
+				$('#loading-gif').fadeOut();
+			});
 			$(function() {
+				$('#navigation a').on('click', function() {
+					$('#loading-gif').fadeIn();
+				});	
 				$(document).on('pjax:send', function() { 
 					$('#loading-gif').fadeIn();
 				});
