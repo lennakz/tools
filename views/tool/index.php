@@ -22,7 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 	
 	
-	<?php Pjax::begin(); ?>    
+	<?php Pjax::begin([
+		'timeout' => 10000,
+	]); ?>    
 		<?= GridView::widget([
 			'dataProvider' => $dataProvider,
 			'columns' => [

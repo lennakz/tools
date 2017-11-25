@@ -21,9 +21,9 @@ trait ControllerTrait
 						'asc' => ['tools.name' => SORT_ASC],
 						'desc' => ['tools.name' => SORT_DESC],
 					],
-					'jobSite.street' => [
-						'asc' => ['job_sites.street' => SORT_ASC],
-						'desc' => ['job_sites.street' => SORT_DESC],
+					'jobSite.name' => [
+						'asc' => ['job_sites.name' => SORT_ASC],
+						'desc' => ['job_sites.name' => SORT_DESC],
 					],
 					'category.name' => [
 						'asc' => ['tool_categories.name' => SORT_ASC],

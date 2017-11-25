@@ -37,7 +37,7 @@ class ToolController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Tool::find()->joinWith('make'),
+            'query' => Tool::find()->joinWith(['make', 'category']),
 			'sort' => new Sort([
 				'attributes' => [
 					'make.name' => [
@@ -45,8 +45,8 @@ class ToolController extends Controller
 						'desc' => ['make.name' => SORT_DESC],
 					],
 					'category.name' => [
-						'asc' => ['category.name' => SORT_ASC],
-						'desc' => ['category.name' => SORT_DESC],
+						'asc' => ['tool_categories.name' => SORT_ASC],
+						'desc' => ['tool_categories.name' => SORT_DESC],
 					],
 					'id',
 					'name'

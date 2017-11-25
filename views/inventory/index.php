@@ -16,13 +16,12 @@ use yii\web\JsExpression;
 
 $this->title = 'Inventories';
 
-$template = 
-	'<div class="search-result-inventories"><a href="{{url}}">{{name}} (#{{inventory_number}}) - {{job_site}} - {{status}}</a></div>';
+$template = '<div class="search-result-inventories"><a href="{{url}}">{{name}} (#{{formatted_number}}) - {{job_site}} - {{status}}</a></div>';
 
 $engine = new Bloodhound([
 	'name' => 'inventoryEngine',
 	'clientOptions' => [
-		'datumTokenizer' => new JsExpression("Bloodhound.tokenizers.obj.whitespace('name')"),
+		'datumTokenizer' => new JsExpression("Bloodhound.tokenizers.obj.whitespace('name', 'inventory_number')"),
 		'queryTokenizer' => new JsExpression("Bloodhound.tokenizers.whitespace"),
 		'prefetch' => [
 			'url' => Url::to(['inventory/inventories_json']),
@@ -55,6 +54,7 @@ $engine = new Bloodhound([
 					'name' => 'typeahead-form',
 					'source' => $engine->getAdapterScript(),
 					'displayKey' => 'name',
+					'limit' => 10,
 					'templates' => [
 						'notFound' => '<div class="search-result-inventories not-found">Unable to find this inventory</div>',
 						'suggestion' => new JsExpression("Handlebars.compile('{$template}')"),
@@ -84,7 +84,7 @@ $engine = new Bloodhound([
 		'id' => 'pjax-gridview',
 		'linkSelector' => '#pjax-gridview a, .refresh-table',
 		'timeout' => 10000,
-	]); ?>    
+	]) ?>    
 		<h3 class="filter-header text-center">Showing <?= $filter_header ?>: <?= $filter_header_link ?></h3>
 		<?=	GridView::widget([
 			'dataProvider' => $dataProvider,

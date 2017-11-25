@@ -74,7 +74,7 @@ class InventoryController extends Controller
             ],
         ];
     }
-
+	
 	/**
      * Login action.
      *
@@ -218,7 +218,8 @@ class InventoryController extends Controller
 				'id' => $m->id,
 				'url' => $m->url,
 				'name' => $m->tool->name,
-				'inventory_number' => $m->formattedNumber,
+				'inventory_number' => $m->inventory_number,
+				'formatted_number' => $m->formattedNumber,
 				'job_site' => $m->jobSite->street,
 				'status' => $m->statusText,
 			];

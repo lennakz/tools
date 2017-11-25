@@ -67,10 +67,14 @@ AppAsset::register($this);
 				])
 
 				?>
-				
+
 				<?= $content ?>
-				
+
 			</div>
+		</div>
+
+		<div id="loading-gif">
+			<?=	Html::img('@web/images/loading.gif'); ?>
 		</div>
 
 		<footer class="footer">
@@ -78,8 +82,19 @@ AppAsset::register($this);
 				<p class="text-center">&copy; <?= Html::a('NK', 'http://mkotok.com', ['target' => '_blank']) ?> <?= date('Y') ?></p>
 			</div>
 		</footer>
-
-<?php $this->endBody() ?>
+		
+		<script>
+			$(function() {
+				$(document).on('pjax:send', function() { 
+					$('#loading-gif').fadeIn();
+				});
+				$(document).on('pjax:complete', function() { 
+					$('#loading-gif').fadeOut();
+				});
+			});
+		</script>
+		
+		<?php $this->endBody() ?>
 	</body>
 </html>
 <?php $this->endPage() ?>
