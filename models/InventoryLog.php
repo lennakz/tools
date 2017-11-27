@@ -65,16 +65,6 @@ class InventoryLog extends \yii\db\ActiveRecord
         ];
     }
 	
-	public function beforeSave($insert)
-	{
-		if ($insert) 
-			$this->created_date = date('Y-m-d H:i:s');
-		
-		$this->updated_date = date('Y-m-d H:i:s');
-		
-		return parent::beforeSave($insert);
-	}
-	
 	public function getInventory()
 	{
 		return $this->hasOne(Inventory::className(), ['id' => 'inventory_id']);

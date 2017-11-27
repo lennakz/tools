@@ -57,15 +57,13 @@ class Inventory extends \yii\db\ActiveRecord
 	public function afterSave($insert, $changedAttributes)
 	{
 		$log = new InventoryLog;
+		$log->previous_id = null;
 		
-		if ($insert)
-		{
-			$log->previous_id = null;
-		}
-		else
+		if (!$insert)
 		{
 			$latest_log = InventoryLog::find()->where(['inventory_id' => $this->id])->orderBy('change_date DESC')->one();
-			$log->previous_id = $latest_log->id;
+			if (!empty($latest_log))
+				$log->previous_id = $latest_log->id;
 		}
 		
 		$log->attributes = $this->attributes;	
