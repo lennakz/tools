@@ -172,12 +172,16 @@ class InventoryController extends Controller
 		}
 
 		$dataProvider = $this->getInventoryDataProvider($query);
+		$inventories_array = [];
+		foreach ($query->all() as $m)
+			$inventories_array[$m->id] = $m->tool->name . ' (#' . $m->formattedNumber . ')';
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
 			'filter_header' => $filter_header,
 			'filter_header_link' => $filter_header_link,
 			'filter_buttons_array' => $filter_buttons_array,
+			'inventories_array' => $inventories_array,
 		]);
     }
 

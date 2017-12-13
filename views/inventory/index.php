@@ -9,6 +9,7 @@ use yii\widgets\Pjax;
 
 use dosamigos\typeahead\TypeAhead;
 use dosamigos\typeahead\Bloodhound;
+use dosamigos\select2\Select2Bootstrap;
 use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
@@ -63,6 +64,18 @@ $engine = new Bloodhound([
 			],			
 		]); 
 		?>
+	</div>
+	<br><br>
+	<div>
+		<?=	Select2Bootstrap::widget([
+			'name' => 'my-name',
+			'items' => $inventories_array,
+			'clientOptions' => [
+				'width' => '100%',
+				'allowClear' => true,
+				'multiple' => true,
+			]
+		]);	?>
 	</div>
 	<br><br>
 	
