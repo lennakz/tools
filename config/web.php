@@ -63,7 +63,7 @@ $config = [
                     //'cachePath' => '@runtime/Smarty/cache',
                 ],
             ],
-        ],
+		],
 		'assetManager' => [
 			'bundles' => [
 				'yii\web\JqueryAsset' => [

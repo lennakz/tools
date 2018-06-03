@@ -24,7 +24,8 @@
         "2amigos/yii2-type-ahead-widget": "~1.0",
         "2amigos/yii2-select2-widget": "^0.1.2",
 		"yii2mod/yii2-editable": "*",
-        "fxp/composer-asset-plugin": "^1.4"
+        "fxp/composer-asset-plugin": "^1.4",
+        "dmstr/yii2-adminlte-asset": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
