@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,+BAA+B;AAG9B,gCAAgB;EACf,UAAU,EAAE,MAAM;EAClB,+CAAiB;IAChB,OAAO,EAAE,YAAY;AAItB,qDAAY;EACX,OAAO,EAAE,QAAQ;AAElB,iDAAQ;EACP,gBAAgB,EAAE,IAAI;AAGxB,yBAAS;EACR,gBAAgB,EAAE,IAAI;EACtB,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,cAAc",
-"sources": ["../../scss/modules/inventory.scss"],
-"names": [],
-"file": "inventory.css"
-}

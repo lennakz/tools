@@ -1,65 +1,102 @@
 <?php
-use yii\helpers\Html;
-
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use yii\helpers\Html;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\widgets\Breadcrumbs;
+use app\assets\AppAsset;
 
-if (Yii::$app->controller->action->id === 'login') { 
-/**
- * Do not use this code in your template. Remove it. 
- * Instead, use the code  $this->layout = '//main-login'; in your controller.
- */
-    echo $this->render(
-        'main-login',
-        ['content' => $content]
-    );
-} else {
+AppAsset::register($this);
 
-    if (class_exists('backend\assets\AppAsset')) {
-        backend\assets\AppAsset::register($this);
-    } else {
-        app\assets\AppAsset::register($this);
-    }
+?>
+<?php $this->beginPage() ?>
+<!DOCTYPE html>
+<html lang="<?= Yii::$app->language ?>">
+	<head>
+		<meta charset="<?= Yii::$app->charset ?>">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<?= Html::csrfMetaTags() ?>
+		<title><?= Html::encode($this->title) ?></title>
+		<?php $this->head() ?>
+	</head>
+	<body>
+		<?php $this->beginBody() ?>
+		<div class="wrap">
+			<?php NavBar::begin([
+				'brandLabel' => 'My Tools',
+				'brandUrl' => Yii::$app->homeUrl,
+				'options' => [
+					'class' => 'navbar-inverse navbar-fixed-top',
+					'id' => 'navigation',
+				],
+			]);
+			echo Nav::widget([
+				'options' => ['class' => 'navbar-nav navbar-right'],
+				'items' => [
+					['label' => 'Inventory', 'url' => ['/inventory/index']],
+					['label' => 'Tools', 'url' => ['/tool/index']],
+					['label' => 'Makes', 'url' => ['/make/index']],
+					['label' => 'Job Sites', 'url' => ['/job-site/index']],
+					['label' => 'About', 'url' => ['/inventory/about']],
+					['label' => 'Contact', 'url' => ['/inventory/contact']],
+					Yii::$app->user->isGuest ? (
+						['label' => 'Login', 'url' => ['/inventory/login']]
+						) : (
+						'<li>'
+						. Html::beginForm(['/inventory/logout'], 'post')
+						. Html::submitButton(
+							'Logout (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-link logout']
+						)
+						. Html::endForm()
+						. '</li>'
+						)
+				],
+			]);
+			NavBar::end();
 
-    dmstr\web\AdminLteAsset::register($this);
+			?>
+			
+			<div class="container">
+				<?=	Breadcrumbs::widget([
+					'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+				]); ?>
 
-    $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
-    ?>
-    <?php $this->beginPage() ?>
-    <!DOCTYPE html>
-    <html lang="<?= Yii::$app->language ?>">
-    <head>
-        <meta charset="<?= Yii::$app->charset ?>"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?= Html::csrfMetaTags() ?>
-        <title><?= Html::encode($this->title) ?></title>
-        <?php $this->head() ?>
-    </head>
-    <body class="hold-transition skin-blue sidebar-mini">
-    <?php $this->beginBody() ?>
-    <div class="wrapper">
+				<?= $content ?>
 
-        <?= $this->render(
-            'header.php',
-            ['directoryAsset' => $directoryAsset]
-        ) ?>
+			</div>
+		</div>
 
-        <?= $this->render(
-            'left.php',
-            ['directoryAsset' => $directoryAsset]
-        )
-        ?>
+		<div id="loading-gif">
+			<?=	Html::img('@web/images/loading.gif'); ?>
+		</div>
 
-        <?= $this->render(
-            'content.php',
-            ['content' => $content, 'directoryAsset' => $directoryAsset]
-        ) ?>
-
-    </div>
-
-    <?php $this->endBody() ?>
-    </body>
-    </html>
-    <?php $this->endPage() ?>
-<?php } ?>
+		<footer class="footer">
+			<div class="container">
+				<p class="text-center">&copy; <?= Html::a('NK', 'http://mkotok.com', ['target' => '_blank']) ?> <?= date('Y') ?></p>
+			</div>
+		</footer>
+		
+		<script>
+			$(window).on('load', function() {
+				$('#loading-gif').fadeOut();
+			});
+			$(function() {
+				$('#navigation a').on('click', function() {
+					$('#loading-gif').fadeIn();
+				});	
+				$(document).on('pjax:send', function() { 
+					$('#loading-gif').fadeIn();
+				});
+				$(document).on('pjax:complete', function() { 
+					$('#loading-gif').fadeOut();
+				});
+			});
+		</script>
+		
+		<?php $this->endBody() ?>
+	</body>
+</html>
+<?php $this->endPage() ?>

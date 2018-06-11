@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,gBAAiB;EAChB,UAAU,EAAE,MAAM;EAClB,kBAAE;IACD,YAAY,EAAE,IAAI;IAClB,aAAa,EAAE,IAAI;;AAIrB,IAAK;EACJ,MAAM,EAAE,KAAK;EACb,KAAK,EAAE,IAAI",
-"sources": ["../../scss/modules/job-site.scss"],
-"names": [],
-"file": "job-site.css"
-}
