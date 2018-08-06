@@ -5,14 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\ToolCategory;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\components\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * ToolCategoryController implements the CRUD actions for ToolCategory model.
  */
-class ToolCategoryController extends Controller
+class ToolCategoryController extends BaseController
 {
     /**
      * @inheritdoc

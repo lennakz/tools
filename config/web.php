@@ -9,7 +9,7 @@ $db = require(__DIR__ . '/db.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-	'defaultRoute' => 'inventory',
+	'defaultRoute' => 'site',
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
@@ -25,7 +25,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'inventory/error',
+            'errorAction' => 'site/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -49,14 +49,15 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-				'<action:\w+>' => 'inventory/<action>',
+				'<action:\w+>' => 'site/<action>',
 				'<controller:\w+>/<id:\d+>' => '<controller>/view',
 				'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 				'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ],
         ],
 		'view' => [
-			'defaultExtension' => 'php',
+			'defaultExtension' => 'tpl',
+			'class' => 'app\components\View',
             'renderers' => [
                 'tpl' => [
                     'class' => 'yii\smarty\ViewRenderer',
@@ -73,6 +74,9 @@ $config = [
 		],
     ],
     'params' => $params,
+	'aliases' => [
+		'@layouts' => '@app/views/layouts',
+	],
 ];
 
 if (YII_ENV_DEV) {

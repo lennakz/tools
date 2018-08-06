@@ -7,12 +7,13 @@ use yii\helpers\Url;
 use yii\helpers\Json;
 use yii\helpers\Html;
 
-use yii\web\Controller;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+
+use app\components\BaseController;
 
 use app\models\LoginForm;
 use app\models\ContactForm;
@@ -29,7 +30,7 @@ use app\components\ControllerTrait;
 /**
  * InventoryController implements the CRUD actions for Inventory model.
  */
-class InventoryController extends Controller
+class InventoryController extends BaseController
 {
 	use ControllerTrait;
 	/**

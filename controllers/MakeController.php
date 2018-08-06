@@ -5,14 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Make;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\components\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * MakeController implements the CRUD actions for Make model.
  */
-class MakeController extends Controller
+class MakeController extends BaseController
 {
     /**
      * @inheritdoc

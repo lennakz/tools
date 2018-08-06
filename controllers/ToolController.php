@@ -5,7 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Tool;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\components\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\Sort;
@@ -13,7 +13,7 @@ use yii\data\Sort;
 /**
  * ToolController implements the CRUD actions for Tool model.
  */
-class ToolController extends Controller
+class ToolController extends BaseController
 {
     /**
      * @inheritdoc

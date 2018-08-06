@@ -6,7 +6,9 @@ use Yii;
 use app\models\JobSite;
 use app\models\Inventory;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+
+use app\components\BaseController;
+
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
@@ -18,7 +20,7 @@ use app\components\ControllerTrait;
 /**
  * JobSiteController implements the CRUD actions for JobSite model.
  */
-class JobSiteController extends Controller
+class JobSiteController extends BaseController
 {
 	use ControllerTrait;
 	/**
