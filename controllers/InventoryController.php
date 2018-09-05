@@ -6,17 +6,24 @@ use Yii;
 use yii\helpers\Url;
 use yii\helpers\Json;
 use yii\helpers\Html;
+
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
+
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+
 use app\components\BaseController;
+
+use app\models\LoginForm;
+use app\models\ContactForm;
 use app\models\Inventory;
 use app\models\Tool;
 use app\models\ToolCategory;
 use app\models\InventoryStatus;
 use app\models\JobSite;
 use app\models\InventoryLog;
+
 use yii\data\ActiveDataProvider;
 use app\components\ControllerTrait;
 
@@ -25,63 +32,124 @@ use app\components\ControllerTrait;
  */
 class InventoryController extends BaseController
 {
-
 	use ControllerTrait;
-
 	/**
-	 * @inheritdoc
-	 */
-	public function behaviors()
-	{
-		return [
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['post'],
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
 					'logout' => ['post'],
-				],
-			],
+                ],
+            ],
 			'access' => [
-				'class' => AccessControl::className(),
-				'only' => ['logout'],
-				'rules' => [
-					[
-						'actions' => ['logout'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
-		];
-	}
+                'class' => AccessControl::className(),
+                'only' => ['logout'],
+                'rules' => [
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
 	/**
-	 * @inheritdoc
-	 */
-	public function actions()
-	{
-		return [
-			'error' => [
-				'class' => 'yii\web\ErrorAction',
-			],
-			'captcha' => [
-				'class' => 'yii\captcha\CaptchaAction',
-				'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-			],
-		];
-	}
-
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+	
 	/**
-	 * Lists all Inventory models.
-	 * @return mixed
-	 */
-	public function actionIndex()
-	{
+     * Login action.
+     *
+     * @return Response|string
+     */
+    public function actionLogin()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+        return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Logout action.
+     *
+     * @return Response
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+
+    /**
+     * Displays contact page.
+     *
+     * @return Response|string
+     */
+    public function actionContact()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+
+            return $this->refresh();
+        }
+        return $this->render('contact', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays about page.
+     *
+     * @return string
+     */
+    public function actionAbout()
+    {
+		$this->view->title = 'About';
+		$this->view->params['breadcrumbs'][] = $this->view->title;
+
+        return $this->render('about.tpl');
+    }
+
+    /**
+     * Lists all Inventory models.
+     * @return mixed
+     */
+    public function actionIndex()
+    {
 		$filter_header = '';
 		$filter_header_link = '';
 		$filter_buttons_array = $this->getFilterButtonsArray();
 		$param = app()->request->get();
-
+		
 		$query = Inventory::find()->joinWith(['tool', 'jobSite', 'category']);
 		$filter_header = 'All';
 
@@ -101,7 +169,7 @@ class InventoryController extends BaseController
 		{
 			$query = $query->where(['job_site_id' => $param['job_site']]);
 			$filter_header = 'Places';
-			$filter_header_link = $filter_buttons_array['Job Sites'][$param['job_site']]['link'];
+			$filter_header_link = $filter_buttons_array['Job Sites'][$param['job_site']]['link'];			
 		}
 
 		$dataProvider = $this->getInventoryDataProvider($query);
@@ -109,14 +177,14 @@ class InventoryController extends BaseController
 		foreach ($query->all() as $m)
 			$inventories_array[$m->id] = $m->tool->name . ' (#' . $m->formattedNumber . ')';
 
-		return $this->render('index', [
-				'dataProvider' => $dataProvider,
-				'filter_header' => $filter_header,
-				'filter_header_link' => $filter_header_link,
-				'filter_buttons_array' => $filter_buttons_array,
-				'inventories_array' => $inventories_array,
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+			'filter_header' => $filter_header,
+			'filter_header_link' => $filter_header_link,
+			'filter_buttons_array' => $filter_buttons_array,
+			'inventories_array' => $inventories_array,
 		]);
-	}
+    }
 
 	public function getFilterButtonsArray()
 	{
@@ -164,18 +232,18 @@ class InventoryController extends BaseController
 
 		echo Json::encode($array);
 	}
-
-	/**
-	 * Displays a single Inventory model.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionView($id)
-	{
+	
+    /**
+     * Displays a single Inventory model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
 		$query = InventoryLog::find()->where(['inventory_id' => $id]);
-
+		
 		$logsDataProvider = new ActiveDataProvider([
-			'query' => $query,
+            'query' => $query,
 			'sort' => [
 				'attributes' => [
 					'change_date',
@@ -184,86 +252,81 @@ class InventoryController extends BaseController
 					'change_date' => SORT_DESC,
 				],
 			],
-		]);
-
-
-		return $this->render('view', [
-			'model' => $this->findModel($id),
+        ]);
+		
+		
+        return $this->render('view', [
+            'model' => $this->findModel($id),
 			'logs_data_provider' => $logsDataProvider,
-		]);
-	}
+        ]);
+    }
 
-	/**
-	 * Creates a new Inventory model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 * @return mixed
-	 */
-	public function actionCreate()
-	{
-		$latest_model = Inventory::find()->max('inventory_number');
+    /**
+     * Creates a new Inventory model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $latest_model = Inventory::find()->max('inventory_number');
 		$model = new Inventory();
 		$model->inventory_number = ++$latest_model;
 
-		if ($model->load(Yii::$app->request->post()) && $model->save())
-		{
-			return $this->redirect(['view', 'id' => $model->id]);
-		}
-		else
-		{
-			return $this->render('create', [
-				'model' => $model,
-			]);
-		}
-	}
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
 
-	/**
-	 * Updates an existing Inventory model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionUpdate($id)
-	{
-		$model = $this->findModel($id);
+    /**
+     * Updates an existing Inventory model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
 
-		if ($model->load(Yii::$app->request->post()) && $model->save())
-		{
-			return $this->redirect(['view', 'id' => $model->id]);
-		}
-		else
-		{
-			return $this->render('update', [
-				'model' => $model,
-			]);
-		}
-	}
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
 
-	/**
-	 * Deletes an existing Inventory model.
-	 * If deletion is successful, the browser will be redirected to the 'index' page.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionDelete($id)
-	{
-		$this->findModel($id)->delete();
+    /**
+     * Deletes an existing Inventory model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
 
-		return $this->redirect(['index']);
-	}
+        return $this->redirect(['index']);
+    }
 
-	/**
-	 * Finds the Inventory model based on its primary key value.
-	 * If the model is not found, a 404 HTTP exception will be thrown.
-	 * @param integer $id
-	 * @return Inventory the loaded model
-	 * @throws NotFoundHttpException if the model cannot be found
-	 */
-	protected function findModel($id)
-	{
-		if (($model = Inventory::findOne($id)) !== null)
-			return $model;
-		else
-			throw new NotFoundHttpException('The requested page does not exist.');
-	}
+    /**
+     * Finds the Inventory model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Inventory the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Inventory::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 
 }

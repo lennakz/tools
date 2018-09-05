@@ -19,40 +19,34 @@ class View extends ViewWeb
 		return Menu::widget([
 			'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
 			'items' => [
+				['label' => 'Main Menu', 'options' => ['class' => 'header']],
+				['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+				['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
+				['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
 				[
-					'label' => 'Inventory',
-					'icon' => 'file-text-o',
+					'label' => 'Some tools',
+					'icon' => 'share',
 					'url' => '#',
 					'items' => [
-						['label' => 'Create', 'icon' => 'plus', 'url' => ['/job-site/create'],],
-						['label' => 'View', 'icon' => 'eye', 'url' => ['/inventory/index'],],						
-					],
-				],
-				[
-					'label' => 'Job Sites',
-					'icon' => 'home',
-					'url' => '#',
-					'items' => [
-						['label' => 'Create', 'icon' => 'plus', 'url' => ['/job-site/create'],],
-						['label' => 'View', 'icon' => 'eye', 'url' => ['/job-site/index'],],						
-					],
-				],
-				[
-					'label' => 'Tools',
-					'icon' => 'hand-lizard-o',
-					'url' => '#',
-					'items' => [
-						['label' => 'Create', 'icon' => 'plus', 'url' => ['/tool/create'],],
-						['label' => 'View', 'icon' => 'eye', 'url' => ['/tool/index'],],						
-					],
-				],
-				[
-					'label' => 'Order',
-					'icon' => 'file-text',
-					'url' => '#',
-					'items' => [
-						['label' => 'Create', 'icon' => 'plus', 'url' => ['/order/create'],],
-						['label' => 'View', 'icon' => 'eye', 'url' => ['/order/index'],],						
+						['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+						['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+						[
+							'label' => 'Level One',
+							'icon' => 'circle-o',
+							'url' => '#',
+							'items' => [
+								['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
+								[
+									'label' => 'Level Two',
+									'icon' => 'circle-o',
+									'url' => '#',
+									'items' => [
+										['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+										['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+									],
+								],
+							],
+						],
 					],
 				],
 			],

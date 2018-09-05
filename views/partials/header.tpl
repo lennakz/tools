@@ -15,14 +15,6 @@
 		<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
 			<span class="sr-only">Toggle navigation</span>
 		</a>
-		<form action="search" class="navbar-form navbar-left" role="search">
-            <div class="input-group">
-				<input type="text" class="form-control" name="q" id="navbar-search-input" placeholder="Search">
-				<span class="input-group-btn">
-					<button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-				</span>
-            </div>
-		</form>
 		<!-- Navbar Right Menu -->
 		<div class="navbar-custom-menu">
 			<ul class="nav navbar-nav">
