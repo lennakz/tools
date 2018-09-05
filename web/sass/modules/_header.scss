@@ -1,0 +1,12 @@
+header.main-header {
+	form.navbar-form {
+		button {
+			background-color: $white;
+			border-color: transparent;
+			> i {
+				color: $blue;
+				
+			}
+		}
+	}
+}
